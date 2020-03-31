@@ -12,7 +12,7 @@ import UIKit
 public class DiagnosticsMenuTableViewController: UITableViewController {
     
     var providers: [DiagnosticsServiceProvider] {
-        return DiagnosticsManager.sharedInstance.diagnosticProviders
+        return DiagnosticsManager.shared.diagnosticProviders
     }
     
     public init() {
