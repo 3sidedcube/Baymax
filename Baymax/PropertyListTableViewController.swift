@@ -29,18 +29,23 @@ class PropertyListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "propertyRow", for: indexPath) as! InformationTableViewCell
         
         let property = properties?[indexPath.row]
         
         cell.keyLabel?.text = property?.key
+        cell.valueLabel?.text = property?.value?.toString()
         
         if ((property?.children) != nil) {
+            
+            cell.selectionStyle = .default
             cell.accessoryType = .disclosureIndicator
-            cell.valueLabel?.text = nil
+            
         } else {
+            
+            cell.selectionStyle = .none
             cell.accessoryType = .none
-            cell.valueLabel?.text = ValueConverter.string(for: property?.value)
         }
         
         return cell
@@ -49,37 +54,44 @@ class PropertyListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
         guard (properties?[indexPath.row].children) != nil else {
             return
         }
         
-        let view = PropertyListTableViewController(style: .grouped)
-        view.properties = properties?[indexPath.row].children
-        navigationController?.show(view, sender: self)
+        let nextViewController = PropertyListTableViewController(style: .grouped)
+        nextViewController.properties = properties?[indexPath.row].children
+        nextViewController.title = properties?[indexPath.row].key
+        navigationController?.show(nextViewController, sender: self)
     }
 }
 
 struct PropertyListItem {
     
     var key: String?
-    var value: Any?
+    
+    var value: PlistValue?
+    
     var children: [PropertyListItem]?
     
-    init(with key: String?, value: Any) {
+    init(with key: String?, value: PlistValue?) {
         
         self.key = key
+        self.value = value
         
-        if let childArray = value as? [Any] {
-            children = childArray.compactMap({PropertyListItem(with: nil, value: $0)})
-        } else if let childDictionary = value as? [String: Any] {
-            children = childDictionary.keys.compactMap({PropertyListItem(with: $0, value: childDictionary[$0] as Any)})
-        } else {
-            self.value = value
+        guard let value = value else { return }
+        
+        // There are compiler warnings here... but they don't actually fail like the warnings say!
+        if let childArray = value as? [PlistValue] {
+            children = childArray.enumerated().compactMap({ PropertyListItem(with: "Element \($0.offset)", value: $0.element) })
+        } else if let childDictionary = value as? [AnyHashable: PlistValue] {
+            children = childDictionary.keys.compactMap({ PropertyListItem(with: "\($0)", value: childDictionary[$0]) })
         }
     }
 }
 
 class PropertyListTool: DiagnosticTool {
+    
     var displayName: String {
         return "Property List Viewer"
     }
@@ -89,9 +101,11 @@ class PropertyListTool: DiagnosticTool {
         guard let dictionary = Bundle.main.infoDictionary else {
             return
         }
-        
+        let plistDictionary = dictionary.compactMapValues { (value) -> PlistValue? in
+            return plistValueFrom(value)
+        }
         let view = PropertyListTableViewController(style: .grouped)
-        view.properties = dictionary.keys.compactMap({PropertyListItem(with: $0, value: dictionary[$0] as Any)})
+        view.properties = plistDictionary.keys.compactMap({ PropertyListItem(with: $0, value: plistDictionary[$0]) })
         navigationController.show(view, sender: self)
     }
 }

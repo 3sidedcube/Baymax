@@ -33,6 +33,17 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
         self.navigationController?.isToolbarHidden = false
     }
     
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard !isBeingDismissed else { return }
+        self.navigationController?.setToolbarHidden(true, animated: animated)
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setToolbarHidden(false, animated: animated)
+    }
+    
     // MARK: - Table view data source
     
     override public func numberOfSections(in tableView: UITableView) -> Int {

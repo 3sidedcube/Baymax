@@ -16,7 +16,7 @@
 		49FD399C2199BAC000963C41 /* BaymaxServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FD399B2199BAC000963C41 /* BaymaxServices.swift */; };
 		49FD399F219B0AAE00963C41 /* InformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FD399D219B0AAE00963C41 /* InformationTableViewCell.swift */; };
 		49FD39A0219B0AAE00963C41 /* InformationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */; };
-		49FD39A2219B177300963C41 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FD39A1219B177300963C41 /* Utilities.swift */; };
+		49FD39A2219B177300963C41 /* PlistValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FD39A1219B177300963C41 /* PlistValue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 		49FD399B2199BAC000963C41 /* BaymaxServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaymaxServices.swift; sourceTree = "<group>"; };
 		49FD399D219B0AAE00963C41 /* InformationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationTableViewCell.swift; sourceTree = "<group>"; };
 		49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InformationTableViewCell.xib; sourceTree = "<group>"; };
-		49FD39A1219B177300963C41 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		49FD39A1219B177300963C41 /* PlistValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistValue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,7 @@
 				49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */,
 				49E068B2219458C900F9B93B /* DiagnosticsMenuTableViewController.swift */,
 				49FD39992199870200963C41 /* PropertyListTableViewController.swift */,
-				49FD39A1219B177300963C41 /* Utilities.swift */,
+				49FD39A1219B177300963C41 /* PlistValue.swift */,
 				49FD399B2199BAC000963C41 /* BaymaxServices.swift */,
 				4941F7A82195A63300F1081E /* DiagnosticsManager.swift */,
 				49E0688321944B7100F9B93B /* DiagnosticsServiceProviderProtocol.swift */,
@@ -165,7 +165,7 @@
 				4941F7A92195A63300F1081E /* DiagnosticsManager.swift in Sources */,
 				49E0688421944B7100F9B93B /* DiagnosticsServiceProviderProtocol.swift in Sources */,
 				49FD399F219B0AAE00963C41 /* InformationTableViewCell.swift in Sources */,
-				49FD39A2219B177300963C41 /* Utilities.swift in Sources */,
+				49FD39A2219B177300963C41 /* PlistValue.swift in Sources */,
 				49FD399C2199BAC000963C41 /* BaymaxServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
