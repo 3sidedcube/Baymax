@@ -94,7 +94,7 @@ public class DiagnosticsManager {
     }
     
     /// Presents the diagnostics view
-    private func presentDiagnosticsView() {
+    public func presentDiagnosticsView() {
         
         guard let viewController = hostWindow?.rootViewController else {
             return
