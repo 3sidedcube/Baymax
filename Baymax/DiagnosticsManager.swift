@@ -21,7 +21,7 @@ public class DiagnosticsManager {
     private var authenticationRequestClosure: AuthenticationRequestClosure?
     
     /// A shared instance of the diagnostics manager
-    public static let sharedInstance = DiagnosticsManager()
+    public static let shared = DiagnosticsManager()
     
     /// An internal record of all registered diagnostic providers
     private var _diagnosticProviders = [DiagnosticsServiceProvider]()
@@ -63,7 +63,7 @@ public class DiagnosticsManager {
     ///   - authenticationHandler: A closure that you should use to handle authentication, if desired
     public func attach(to window: UIWindow, authenticationHandler: AuthenticationRequestClosure? = nil) {
         
-        DiagnosticsManager.sharedInstance.register(provider: BaymaxServices())
+        DiagnosticsManager.shared.register(provider: BaymaxServices())
         
         hostWindow = window
         authenticationRequestClosure = authenticationHandler
