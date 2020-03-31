@@ -10,9 +10,9 @@ import UIKit
 
 /// The presentable view for the baymax framework. Diagnostics tools are accessed from here.
 public class DiagnosticsMenuTableViewController: UITableViewController {
-
+    
     var providers: [DiagnosticsServiceProvider] {
-        return DiagnosticsManager.sharedInstance.diagnosticProviders
+        return DiagnosticsManager.shared.diagnosticProviders
     }
     
     public init() {
@@ -32,13 +32,13 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
         self.toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil) ,UIBarButtonItem(title: "Close", style: .done, target: self, action: #selector(handleClose))]
         self.navigationController?.isToolbarHidden = false
     }
-
+    
     // MARK: - Table view data source
-
+    
     override public func numberOfSections(in tableView: UITableView) -> Int {
         return providers.count
     }
-
+    
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard section <= providers.count - 1 else {

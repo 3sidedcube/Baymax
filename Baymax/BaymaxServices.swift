@@ -9,6 +9,7 @@
 import Foundation
 
 class BaymaxServices: DiagnosticsServiceProvider {
+    
     var serviceName: String {
         return "General"
     }

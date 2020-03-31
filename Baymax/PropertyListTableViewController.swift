@@ -9,7 +9,7 @@
 import UIKit
 
 class PropertyListTableViewController: UITableViewController {
-
+    
     var properties: [PropertyListItem]?
     
     override func viewDidLoad() {
@@ -17,13 +17,13 @@ class PropertyListTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         tableView.register(UINib(nibName: "InformationTableViewCell", bundle: Bundle(for: PropertyListTableViewController.self)), forCellReuseIdentifier: "propertyRow")
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return properties?.count ?? 0
     }
@@ -42,7 +42,7 @@ class PropertyListTableViewController: UITableViewController {
             cell.accessoryType = .none
             cell.valueLabel?.text = ValueConverter.string(for: property?.value)
         }
-    
+        
         return cell
     }
     

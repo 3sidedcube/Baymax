@@ -20,7 +20,8 @@ public class DiagnosticsManager {
     /// When the diagnostic tool has been assigned to a window, the authentication closure is stored here until required
     private var authenticationRequestClosure: AuthenticationRequestClosure?
     
-    public static let sharedInstance = DiagnosticsManager()
+    /// A shared instance of the diagnostics manager
+    public static let shared = DiagnosticsManager()
     
     /// An internal record of all registered diagnostic providers
     private var _diagnosticProviders = [DiagnosticsServiceProvider]()
@@ -33,7 +34,6 @@ public class DiagnosticsManager {
     
     /// Diagnostic providers filtered to remove any blacklisted providers
     var diagnosticProviders: [DiagnosticsServiceProvider] {
-        
         return _diagnosticProviders.filter { (provider) -> Bool in
             return !blacklistedServices.contains(where: { $0 == type(of: provider) })
         }
@@ -63,7 +63,7 @@ public class DiagnosticsManager {
     ///   - authenticationHandler: A closure that you should use to handle authentication, if desired
     public func attach(to window: UIWindow, authenticationHandler: AuthenticationRequestClosure? = nil) {
         
-        DiagnosticsManager.sharedInstance.register(provider: BaymaxServices())
+        DiagnosticsManager.shared.register(provider: BaymaxServices())
         
         hostWindow = window
         authenticationRequestClosure = authenticationHandler
