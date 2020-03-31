@@ -17,5 +17,4 @@ public protocol DiagnosticTool {
     ///
     /// - Parameter navigationController: The navigation controller that can be used to present or push the view
     func launchUI(in navigationController: UINavigationController)
-    
 }

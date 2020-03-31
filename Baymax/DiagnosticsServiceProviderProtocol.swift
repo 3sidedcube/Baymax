@@ -16,5 +16,4 @@ public protocol DiagnosticsServiceProvider {
     
     /// An array of services (or tools)
     var diagnosticTools: [DiagnosticTool] { get }
-    
 }
