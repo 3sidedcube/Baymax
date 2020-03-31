@@ -20,6 +20,7 @@ public class DiagnosticsManager {
     /// When the diagnostic tool has been assigned to a window, the authentication closure is stored here until required
     private var authenticationRequestClosure: AuthenticationRequestClosure?
     
+    /// A shared instance of the diagnostics manager
     public static let sharedInstance = DiagnosticsManager()
     
     /// An internal record of all registered diagnostic providers
@@ -33,7 +34,6 @@ public class DiagnosticsManager {
     
     /// Diagnostic providers filtered to remove any blacklisted providers
     var diagnosticProviders: [DiagnosticsServiceProvider] {
-        
         return _diagnosticProviders.filter { (provider) -> Bool in
             return !blacklistedServices.contains(where: { $0 == type(of: provider) })
         }
