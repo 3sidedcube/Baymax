@@ -10,7 +10,7 @@ import Foundation
 
 /// Displayed as a table section. This is the top level object for the group of tools you are providing.
 public protocol DiagnosticsServiceProvider {
-        
+    
     /// The name of the service this set of tools is for.
     var serviceName: String { get }
     

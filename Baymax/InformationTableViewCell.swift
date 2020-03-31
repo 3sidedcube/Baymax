@@ -9,8 +9,9 @@
 import UIKit
 
 class InformationTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var keyLabel: UILabel!
+    
     @IBOutlet weak var valueLabel: UILabel!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -25,10 +26,10 @@ class InformationTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
