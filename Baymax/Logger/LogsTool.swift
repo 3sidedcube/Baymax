@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A tool for displaying logs collated using `Logger` objects
 class LogsTool: DiagnosticTool {
     
     var displayName: String {
