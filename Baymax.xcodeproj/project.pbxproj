@@ -25,6 +25,7 @@
 		B1B8061D2434976700112B3D /* SwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */; };
 		B1B8062B2434B20D00112B3D /* LogDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */; };
 		B1B806302434B55100112B3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1B8062F2434B55100112B3D /* Assets.xcassets */; };
+		B1B806382434EB4800112B3D /* BaymaxImageLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
 		B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailViewController.swift; sourceTree = "<group>"; };
 		B1B8062F2434B55100112B3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaymaxImageLiteral.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 		49E0687A21944A5400F9B93B /* Baymax */ = {
 			isa = PBXGroup;
 			children = (
+				B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */,
 				B1B8061E2434977A00112B3D /* Table View Cells */,
 				49E068B2219458C900F9B93B /* DiagnosticsMenuTableViewController.swift */,
 				49FD39992199870200963C41 /* PropertyListTableViewController.swift */,
@@ -214,6 +217,7 @@
 				49FD39A2219B177300963C41 /* Utilities.swift in Sources */,
 				B1B8062B2434B20D00112B3D /* LogDetailViewController.swift in Sources */,
 				B1A0D7312434852500DE753D /* LogFile.swift in Sources */,
+				B1B806382434EB4800112B3D /* BaymaxImageLiteral.swift in Sources */,
 				49FD399C2199BAC000963C41 /* BaymaxServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

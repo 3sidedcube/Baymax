@@ -32,7 +32,7 @@ class LogDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        toolbarItems = [UIBarButtonItem(image: #imageLiteral(resourceName: "share"), style: .plain, target: self, action: #selector(share(_:)))]
+        toolbarItems = [UIBarButtonItem(image: (#imageLiteral(resourceName: "share") as BaymaxImageLiteral).image, style: .plain, target: self, action: #selector(share(_:)))]
         
         super.viewDidLoad()
 

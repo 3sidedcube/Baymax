@@ -91,7 +91,7 @@ class LogsTableViewController: UITableViewController {
         toolbarItems = isSharing ? [
             UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(toggleSharing)),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(image: #imageLiteral(resourceName: "share"), style: .done, target: self, action: #selector(shareSelected(_:)))
+            UIBarButtonItem(image: (#imageLiteral(resourceName: "share") as BaymaxImageLiteral).image, style: .done, target: self, action: #selector(shareSelected(_:)))
         ] : [
             UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(toggleSharing)),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -222,7 +222,7 @@ class LogsTableViewController: UITableViewController {
             
             if isSharing {
                 cell.accessoryType = .none
-                cell.accessoryView = UIImageView(image: selectedLogIndexes.contains(indexPath.row) ? #imageLiteral(resourceName: "checkmark-on") : #imageLiteral(resourceName: "checkmark-off"))
+                cell.accessoryView = UIImageView(image: (selectedLogIndexes.contains(indexPath.row) ? #imageLiteral(resourceName: "checkmark-on") : #imageLiteral(resourceName: "checkmark-off") as BaymaxImageLiteral).image)
                 cell.accessoryView?.tintColor = .systemBlue
             } else {
                 cell.accessoryType = .disclosureIndicator
