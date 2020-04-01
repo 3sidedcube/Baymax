@@ -41,7 +41,9 @@ class LogsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         toolbarItems = [
-            UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(toggleSharing))
+            UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(toggleSharing)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteAll(_:)))
         ]
         
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -77,7 +79,7 @@ class LogsTableViewController: UITableViewController {
     
     var selectedLogIndexes: Set<Int> = [] {
         didSet {
-            guard let toolbarItems = toolbarItems, toolbarItems.count > 1, let lastItem = toolbarItems.last else {
+            guard isSharing, let lastItem = toolbarItems?.last else {
                 return
             }
             lastItem.isEnabled = !selectedLogIndexes.isEmpty
@@ -91,9 +93,31 @@ class LogsTableViewController: UITableViewController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             UIBarButtonItem(image: #imageLiteral(resourceName: "share"), style: .done, target: self, action: #selector(shareSelected(_:)))
         ] : [
-            UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(toggleSharing))
+            UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(toggleSharing)),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteAll(_:)))
         ]
         selectedLogIndexes = []
+    }
+    
+    @objc func deleteAll(_ sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "Delete All Logs?", message: "Are you sure you want to do this? You won't be able to retrieve any of the files at a later date.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+            let fm = FileManager.default
+            self.logFiles.forEach { (file) in
+                do {
+                    try fm.removeItem(at: file.url)
+                } catch _ {
+                    
+                }
+            }
+            self.logFiles = []
+            self.tableView.reloadData()
+        }))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     @objc func toggleLogging(_ sender: UISwitch) {
