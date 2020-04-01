@@ -51,7 +51,7 @@ class LogsTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "SwitchTableViewCell", bundle: Bundle(for: LogsTableViewController.self)), forCellReuseIdentifier: "switchRow")
         
         let fm = FileManager.default
-        guard let directory = Log.shared.directory else { return }
+        guard let directory = Logger.shared.directory else { return }
         
         guard let contents = try? fm.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.fileSizeKey, .creationDateKey], options: []) else {
             return

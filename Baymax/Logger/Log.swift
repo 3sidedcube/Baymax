@@ -16,7 +16,7 @@ import os.log
 ///   - category: The category of the log
 ///   - log: The log to append to
 ///   - type: The type of the log
-public func baymax_log(_ message: String, subsystem: String = Bundle.main.bundleIdentifier ?? "", category: String = "Default", log: Log = .shared, type: BaymaxLogType = .default) {
+public func baymax_log(_ message: String, subsystem: String = Bundle.main.bundleIdentifier ?? "", category: String = "Default", log: Logger = .shared, type: BaymaxLogType = .default) {
     let constructedMessage = "[\(type.rawValue.uppercased())] | \(subsystem) (\(category)) | \(message)"
     var _log = log
     print(constructedMessage, to: &_log)
