@@ -167,6 +167,37 @@ class LogsTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        guard indexPath.section == 1, !isSharing else { return nil }
+        
+        return UISwipeActionsConfiguration(actions: [
+            
+            UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] (_, _, handler) in
+                
+                guard let self = self else { return }
+                
+                let alert = UIAlertController(title: "Delete File", message: "Are you sure you want to do this? You won't be able to retrieve the file at a later date.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+                    handler(false)
+                }))
+                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+                    let fm = FileManager.default
+                    let file = self.logFiles[indexPath.row]
+                    do {
+                        try fm.removeItem(at: file.url)
+                        self.logFiles.remove(at: indexPath.row)
+                        self.tableView.reloadData()
+                        handler(true)
+                    } catch _ {
+                        handler(false)
+                    }
+                }))
+                self.present(alert, animated: true, completion: nil)
+            })
+        ])
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
