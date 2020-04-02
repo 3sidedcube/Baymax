@@ -37,7 +37,7 @@ extension DateFormatter {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "YYYY-MM-DD'T'HH:mm:ssZ"
+        formatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ssZ"
         return formatter
     }
 }
