@@ -43,6 +43,7 @@ class LogDetailViewController: UIViewController {
             textView.text = "Failed to load file"
         }
         
+        textView.isEditable = false
         view.addSubview(textView)
     }
 }
