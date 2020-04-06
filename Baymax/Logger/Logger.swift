@@ -71,7 +71,11 @@ public struct Logger: TextOutputStream {
     ///   - fileName: The name to give to the log file
     ///   - searchPathDirectory: The search path directory (defaults to documents directory)
     ///   - domainMask: The domain mask (defaults to user domain mask)
-    public init(fileName: String, searchPathDirectory: FileManager.SearchPathDirectory = .documentDirectory, domainMask: FileManager.SearchPathDomainMask = .userDomainMask) {
+    public init(
+        fileName: String,
+        searchPathDirectory: FileManager.SearchPathDirectory = .documentDirectory,
+        domainMask: FileManager.SearchPathDomainMask = .userDomainMask
+    ) {
         
         self.fileName = fileName
         self.searchPathDirectory = searchPathDirectory
@@ -94,9 +98,11 @@ public struct Logger: TextOutputStream {
                 
         var writeString = string
         
-        if !writeString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            writeString = "\(formatter.string(from: Date())) \(writeString)"
+        guard !writeString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return
         }
+        
+        writeString = "\(formatter.string(from: Date())) \(writeString)"
         
         guard let directory = directory else { return }
         let log = directory.appendingPathComponent(fileName)
