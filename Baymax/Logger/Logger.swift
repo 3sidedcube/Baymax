@@ -98,11 +98,11 @@ public struct Logger: TextOutputStream {
                 
         var writeString = string
         
-        guard !writeString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return
+        // We can't ignore empty strings entirely, because when using this with `print(_:to)` this function is
+        // called with "\n" as the string to write!
+        if !writeString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            writeString = "\(formatter.string(from: Date())) \(writeString)"
         }
-        
-        writeString = "\(formatter.string(from: Date())) \(writeString)"
         
         guard let directory = directory else { return }
         let log = directory.appendingPathComponent(fileName)
