@@ -60,7 +60,19 @@ class PropertyListTableViewController: UITableViewController {
         }
         
         let nextViewController = PropertyListTableViewController(style: .grouped)
-        nextViewController.properties = properties?[indexPath.row].children
+        // Sort by keys!
+        nextViewController.properties = properties?[indexPath.row].children?.sorted(by: { (item1, item2) -> Bool in
+            switch (item1.key, item2.key) {
+            case (.some(let key1), .some(let key2)):
+                return key1 < key2
+            case (nil, .some(_)):
+                return false
+            case (.some(_), nil):
+                return true
+            case (nil, nil):
+                return false
+            }
+        })
         nextViewController.title = properties?[indexPath.row].key
         navigationController?.show(nextViewController, sender: self)
     }
@@ -105,7 +117,11 @@ class PropertyListTool: DiagnosticTool {
             return plistValueFrom(value)
         }
         let view = PropertyListTableViewController(style: .grouped)
-        view.properties = plistDictionary.keys.compactMap({ PropertyListItem(with: $0, value: plistDictionary[$0]) })
+        view.properties = plistDictionary.keys.sorted(by: { (key1, key2) -> Bool in
+            return key1 < key2
+        }).compactMap({
+            PropertyListItem(with: $0, value: plistDictionary[$0])
+        })
         navigationController.show(view, sender: self)
     }
 }
