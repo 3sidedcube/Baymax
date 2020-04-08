@@ -13,8 +13,8 @@
 		B1A0D6E42433C71E00DE753D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1A0D6E22433C71E00DE753D /* Main.storyboard */; };
 		B1A0D6E62433C72200DE753D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1A0D6E52433C72200DE753D /* Assets.xcassets */; };
 		B1A0D6E92433C72200DE753D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1A0D6E72433C72200DE753D /* LaunchScreen.storyboard */; };
-		B1A0D7122433CB0100DE753D /* Baymax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A0D7112433CAFA00DE753D /* Baymax.framework */; };
-		B1A0D7132433CB0100DE753D /* Baymax.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1A0D7112433CAFA00DE753D /* Baymax.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B1B806322434B68D00112B3D /* Baymax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A0D7112433CAFA00DE753D /* Baymax.framework */; };
+		B1B806332434B68D00112B3D /* Baymax.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1A0D7112433CAFA00DE753D /* Baymax.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,13 +28,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B1A0D7032433C99E00DE753D /* Embed Frameworks */ = {
+		B1B806342434B68D00112B3D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B1A0D7132433CB0100DE753D /* Baymax.framework in Embed Frameworks */,
+				B1B806332434B68D00112B3D /* Baymax.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -58,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1A0D7122433CB0100DE753D /* Baymax.framework in Frameworks */,
+				B1B806322434B68D00112B3D /* Baymax.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +122,7 @@
 				B1A0D6D52433C71E00DE753D /* Sources */,
 				B1A0D6D62433C71E00DE753D /* Frameworks */,
 				B1A0D6D72433C71E00DE753D /* Resources */,
-				B1A0D7032433C99E00DE753D /* Embed Frameworks */,
+				B1B806342434B68D00112B3D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -349,6 +349,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 25H7BM6YWK;
 				INFOPLIST_FILE = ExampleProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -367,6 +368,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 25H7BM6YWK;
 				INFOPLIST_FILE = ExampleProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
