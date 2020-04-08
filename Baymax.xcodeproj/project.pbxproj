@@ -17,6 +17,16 @@
 		49FD399F219B0AAE00963C41 /* InformationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FD399D219B0AAE00963C41 /* InformationTableViewCell.swift */; };
 		49FD39A0219B0AAE00963C41 /* InformationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */; };
 		49FD39A2219B177300963C41 /* PlistValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FD39A1219B177300963C41 /* PlistValue.swift */; };
+		49FD39A2219B177300963C41 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FD39A1219B177300963C41 /* Utilities.swift */; };
+		B1A0D6CF2433AAF100DE753D /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D6CE2433AAF100DE753D /* Logger.swift */; };
+		B1A0D72F243484FA00DE753D /* LogsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D72E243484FA00DE753D /* LogsTool.swift */; };
+		B1A0D7312434852500DE753D /* LogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D7302434852500DE753D /* LogFile.swift */; };
+		B1A0D7332434854600DE753D /* LogsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D7322434854600DE753D /* LogsTableViewController.swift */; };
+		B1B8061C2434976700112B3D /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */; };
+		B1B8061D2434976700112B3D /* SwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */; };
+		B1B8062B2434B20D00112B3D /* LogDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */; };
+		B1B806302434B55100112B3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1B8062F2434B55100112B3D /* Assets.xcassets */; };
+		B1B806382434EB4800112B3D /* BaymaxImageLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +42,16 @@
 		49FD399D219B0AAE00963C41 /* InformationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationTableViewCell.swift; sourceTree = "<group>"; };
 		49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InformationTableViewCell.xib; sourceTree = "<group>"; };
 		49FD39A1219B177300963C41 /* PlistValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistValue.swift; sourceTree = "<group>"; };
+		49FD39A1219B177300963C41 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		B1A0D6CE2433AAF100DE753D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		B1A0D72E243484FA00DE753D /* LogsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsTool.swift; sourceTree = "<group>"; };
+		B1A0D7302434852500DE753D /* LogFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFile.swift; sourceTree = "<group>"; };
+		B1A0D7322434854600DE753D /* LogsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsTableViewController.swift; sourceTree = "<group>"; };
+		B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
+		B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailViewController.swift; sourceTree = "<group>"; };
+		B1B8062F2434B55100112B3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaymaxImageLiteral.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,19 +84,45 @@
 		49E0687A21944A5400F9B93B /* Baymax */ = {
 			isa = PBXGroup;
 			children = (
-				49FD399D219B0AAE00963C41 /* InformationTableViewCell.swift */,
-				49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */,
+				B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */,
+				B1B8061E2434977A00112B3D /* Table View Cells */,
 				49E068B2219458C900F9B93B /* DiagnosticsMenuTableViewController.swift */,
 				49FD39992199870200963C41 /* PropertyListTableViewController.swift */,
 				49FD39A1219B177300963C41 /* PlistValue.swift */,
+				49FD39A1219B177300963C41 /* Utilities.swift */,
+				B1A0D72D2434844300DE753D /* Logger */,
 				49FD399B2199BAC000963C41 /* BaymaxServices.swift */,
 				4941F7A82195A63300F1081E /* DiagnosticsManager.swift */,
 				49E0688321944B7100F9B93B /* DiagnosticsServiceProviderProtocol.swift */,
 				49E0688521944B8900F9B93B /* DiagnosticsServiceProtocol.swift */,
 				49E0687B21944A5400F9B93B /* Baymax.h */,
 				49E0687C21944A5400F9B93B /* Info.plist */,
+				B1B8062F2434B55100112B3D /* Assets.xcassets */,
 			);
 			path = Baymax;
+			sourceTree = "<group>";
+		};
+		B1A0D72D2434844300DE753D /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				B1A0D6CE2433AAF100DE753D /* Logger.swift */,
+				B1A0D72E243484FA00DE753D /* LogsTool.swift */,
+				B1A0D7322434854600DE753D /* LogsTableViewController.swift */,
+				B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */,
+				B1A0D7302434852500DE753D /* LogFile.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		B1B8061E2434977A00112B3D /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				49FD399D219B0AAE00963C41 /* InformationTableViewCell.swift */,
+				49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */,
+				B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */,
+				B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */,
+			);
+			path = "Table View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +195,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				49FD39A0219B0AAE00963C41 /* InformationTableViewCell.xib in Resources */,
+				B1B806302434B55100112B3D /* Assets.xcassets in Resources */,
+				B1B8061D2434976700112B3D /* SwitchTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,13 +207,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1A0D7332434854600DE753D /* LogsTableViewController.swift in Sources */,
+				B1A0D72F243484FA00DE753D /* LogsTool.swift in Sources */,
+				B1B8061C2434976700112B3D /* SwitchTableViewCell.swift in Sources */,
 				49E0688621944B8900F9B93B /* DiagnosticsServiceProtocol.swift in Sources */,
 				49FD399A2199870200963C41 /* PropertyListTableViewController.swift in Sources */,
+				B1A0D6CF2433AAF100DE753D /* Logger.swift in Sources */,
 				49E068B3219458C900F9B93B /* DiagnosticsMenuTableViewController.swift in Sources */,
 				4941F7A92195A63300F1081E /* DiagnosticsManager.swift in Sources */,
 				49E0688421944B7100F9B93B /* DiagnosticsServiceProviderProtocol.swift in Sources */,
 				49FD399F219B0AAE00963C41 /* InformationTableViewCell.swift in Sources */,
 				49FD39A2219B177300963C41 /* PlistValue.swift in Sources */,
+				49FD39A2219B177300963C41 /* Utilities.swift in Sources */,
+				B1B8062B2434B20D00112B3D /* LogDetailViewController.swift in Sources */,
+				B1A0D7312434852500DE753D /* LogFile.swift in Sources */,
+				B1B806382434EB4800112B3D /* BaymaxImageLiteral.swift in Sources */,
 				49FD399C2199BAC000963C41 /* BaymaxServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

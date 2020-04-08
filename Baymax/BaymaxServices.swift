@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// The services provided by Baymax by default
 class BaymaxServices: DiagnosticsServiceProvider {
     
     var serviceName: String {
@@ -15,6 +16,6 @@ class BaymaxServices: DiagnosticsServiceProvider {
     }
     
     var diagnosticTools: [DiagnosticTool] {
-        return [PropertyListTool()]
+        return [PropertyListTool(), LogsTool()]
     }
 }
