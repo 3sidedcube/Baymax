@@ -70,7 +70,7 @@ class PropertyListTableViewController: UITableViewController {
             case (.some(_), nil):
                 return true
             case (nil, nil):
-                return false
+                return true
             }
         })
         nextViewController.title = properties?[indexPath.row].key
