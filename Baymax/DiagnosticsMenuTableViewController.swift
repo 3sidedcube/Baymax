@@ -10,7 +10,7 @@ import UIKit
 
 /// The presentable view for the baymax framework. Diagnostics tools are accessed from here.
 public class DiagnosticsMenuTableViewController: UITableViewController {
-    
+        
     var providers: [DiagnosticsServiceProvider] {
         return DiagnosticsManager.shared.diagnosticProviders
     }
@@ -45,14 +45,15 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
             return 0
         }
         
-        return providers[section].diagnosticTools.count
+        let tools = DiagnosticsManager.shared.whitelistedTools(for: providers[section])
+        return tools.count
     }
     
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "serviceRow", for: indexPath)
         
-        let providerService = providers[indexPath.section].diagnosticTools[indexPath.row]
+        let providerService = DiagnosticsManager.shared.whitelistedTools(for: providers[indexPath.section])[indexPath.row]
         
         cell.textLabel?.text = providerService.displayName
         cell.accessoryType = .disclosureIndicator
@@ -69,7 +70,7 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
         guard let navigationController = self.navigationController else {
             return
         }
-        providers[indexPath.section].diagnosticTools[indexPath.row].launchUI(in: navigationController)
+        DiagnosticsManager.shared.whitelistedTools(for: providers[indexPath.section])[indexPath.row].launchUI(in: navigationController)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

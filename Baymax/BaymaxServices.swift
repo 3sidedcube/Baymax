@@ -9,13 +9,13 @@
 import Foundation
 
 /// The services provided by Baymax by default
-class BaymaxServices: DiagnosticsServiceProvider {
+public class BaymaxServices: DiagnosticsServiceProvider {
     
-    var serviceName: String {
+    public var serviceName: String {
         return "General"
     }
     
-    var diagnosticTools: [DiagnosticTool] {
+    public var diagnosticTools: [DiagnosticTool] {
         return [PropertyListTool(), LogsTool()]
     }
 }
