@@ -25,8 +25,25 @@ class LogDetailViewController: UIViewController {
     
     @objc func share(_ sender: UIBarButtonItem) {
         guard let file = file else { return }
-        let activityViewController = UIActivityViewController(activityItems: [file.url], applicationActivities: nil)
-        activityViewController.popoverPresentationController?.barButtonItem = sender
+        
+        guard let shareHandler = LogsTool.shareHandler else {
+            shareLogFilesDefault([file], sender: sender)
+            return
+        }
+        
+        // If we were told by share handler that it couldn't handle the files, then fallback to default!
+        guard shareHandler([file], sender) == false else {
+            return
+        }
+        
+        shareLogFilesDefault([file], sender: sender)
+    }
+    
+    private func shareLogFilesDefault(_ logFiles: [LogFile], sender: Any?) {
+        let activityViewController = UIActivityViewController(activityItems: logFiles.map({ $0.url }), applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = sender as? UIView ?? view
+        activityViewController.popoverPresentationController?.barButtonItem = sender as? UIBarButtonItem
+        
         present(activityViewController, animated: true, completion: nil)
     }
     

@@ -25,6 +25,13 @@ public class LogsTool: DiagnosticTool {
     /// defaults to `false`
     public static var loggingEnabledByDefault: Bool = false
     
+    /// Can be provided to override how logs are shared by default
+    ///
+    /// You will be handed an array of log files, and the sender if you return false, indicating
+    /// that you weren't able to share them, then they will continue to be shared
+    /// using the default mechanism!
+    public static var shareHandler: (([LogFile], Any) -> Bool)?
+    
     public var displayName: String {
         return "Logs"
     }
