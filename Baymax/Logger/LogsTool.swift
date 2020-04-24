@@ -9,13 +9,27 @@
 import Foundation
 
 /// A tool for displaying logs collated using `Logger` objects
-class LogsTool: DiagnosticTool {
+public class LogsTool: DiagnosticTool {
     
-    var displayName: String {
+    /// Disables or enables Baymax logging
+    public static var loggingEnabled: Bool {
+        get {
+            return UserDefaults.standard.baymaxLoggingEnabled
+        }
+        set {
+            UserDefaults.standard.baymaxLoggingEnabled = newValue
+        }
+    }
+    
+    /// Instructs Baymax logging to either be on or off by default,
+    /// defaults to `false`
+    public static var loggingEnabledByDefault: Bool = false
+    
+    public var displayName: String {
         return "Logs"
     }
     
-    func launchUI(in navigationController: UINavigationController) {
+    public func launchUI(in navigationController: UINavigationController) {
         let view = LogsTableViewController(style: .grouped)
         navigationController.show(view, sender: self)
     }

@@ -92,7 +92,7 @@ public struct Logger: TextOutputStream {
     
     public func write(_ string: String) {
         
-        guard UserDefaults.standard.baymaxLoggingEnabled else {
+        guard LogsTool.loggingEnabled else {
             return
         }
                 
