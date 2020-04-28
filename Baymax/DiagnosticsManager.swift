@@ -8,6 +8,26 @@
 
 import Foundation
 
+extension UIWindow {
+    
+    /// Returns the window's currently visible view controller
+    var visibleViewController: UIViewController? {
+        var top = self.rootViewController
+        while true {
+            if let presented = top?.presentedViewController {
+                top = presented
+            } else if let nav = top as? UINavigationController {
+                top = nav.visibleViewController
+            } else if let tab = top as? UITabBarController {
+                top = tab.selectedViewController
+            } else {
+                break
+            }
+        }
+        return top
+    }
+}
+
 /// Shared singleton responsible for handling registration of providers
 public class DiagnosticsManager {
     
@@ -96,7 +116,7 @@ public class DiagnosticsManager {
     /// Presents the diagnostics view
     public func presentDiagnosticsView() {
         
-        guard let viewController = hostWindow?.rootViewController else {
+        guard let viewController = hostWindow?.visibleViewController else {
             return
         }
         
