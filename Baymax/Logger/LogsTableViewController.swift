@@ -11,6 +11,9 @@ import UIKit
 extension UserDefaults {
     var baymaxLoggingEnabled: Bool {
         get {
+            guard object(forKey: "baymax_logging") != nil else {
+                return LogsTool.loggingEnabledByDefault
+            }
             return bool(forKey: "baymax_logging")
         }
         set {
@@ -121,7 +124,7 @@ class LogsTableViewController: UITableViewController {
     }
     
     @objc func toggleLogging(_ sender: UISwitch) {
-        UserDefaults.standard.baymaxLoggingEnabled = sender.isOn
+        LogsTool.loggingEnabled = sender.isOn
     }
     
     @objc func shareSelected(_ sender: UIBarButtonItem) {
@@ -208,7 +211,7 @@ class LogsTableViewController: UITableViewController {
             cell.selectionStyle = .none
             
             (cell as? SwitchTableViewCell)?.titleLabel.text = "Logging Enabled"
-            (cell as? SwitchTableViewCell)?.switch.isOn = UserDefaults.standard.baymaxLoggingEnabled
+            (cell as? SwitchTableViewCell)?.switch.isOn = LogsTool.loggingEnabled
             (cell as? SwitchTableViewCell)?.switch.removeTarget(nil, action: nil, for: .valueChanged)
             (cell as? SwitchTableViewCell)?.switch.addTarget(self, action: #selector(toggleLogging(_:)), for: .valueChanged)
             
@@ -268,8 +271,22 @@ class LogsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func share(logFiles: [LogFile], sender: Any?) {
+    func share(logFiles: [LogFile], sender: Any) {
         
+        guard let shareHandler = LogsTool.shareHandler else {
+            shareLogFilesDefault(logFiles, sender: sender)
+            return
+        }
+        
+        // If we were told by share handler that it couldn't handle the files, then fallback to default!
+        guard shareHandler(logFiles, sender) == false else {
+            return
+        }
+        
+        shareLogFilesDefault(logFiles, sender: sender)
+    }
+    
+    private func shareLogFilesDefault(_ logFiles: [LogFile], sender: Any?) {
         let activityViewController = UIActivityViewController(activityItems: logFiles.map({ $0.url }), applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = sender as? UIView ?? view
         activityViewController.popoverPresentationController?.barButtonItem = sender as? UIBarButtonItem
