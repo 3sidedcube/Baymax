@@ -41,6 +41,16 @@
 	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>TestBoolean</key>
+	<false/>
+	<key>TestDate</key>
+	<date>2020-03-31T19:52:33Z</date>
+	<key>TestNumber</key>
+	<integer>42</integer>
+	<key>TestString</key>
+	<string>String</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
