@@ -29,18 +29,23 @@ class PropertyListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "propertyRow", for: indexPath) as! InformationTableViewCell
         
         let property = properties?[indexPath.row]
         
         cell.keyLabel?.text = property?.key
+        cell.valueLabel?.text = property?.value?.toString()
         
         if ((property?.children) != nil) {
+            
+            cell.selectionStyle = .default
             cell.accessoryType = .disclosureIndicator
-            cell.valueLabel?.text = nil
+            
         } else {
+            
+            cell.selectionStyle = .none
             cell.accessoryType = .none
-            cell.valueLabel?.text = ValueConverter.string(for: property?.value)
         }
         
         return cell
@@ -49,49 +54,26 @@ class PropertyListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
         guard (properties?[indexPath.row].children) != nil else {
             return
         }
         
-        let view = PropertyListTableViewController(style: .grouped)
-        view.properties = properties?[indexPath.row].children
-        navigationController?.show(view, sender: self)
-    }
-}
-
-struct PropertyListItem {
-    
-    var key: String?
-    var value: Any?
-    var children: [PropertyListItem]?
-    
-    init(with key: String?, value: Any) {
-        
-        self.key = key
-        
-        if let childArray = value as? [Any] {
-            children = childArray.compactMap({PropertyListItem(with: nil, value: $0)})
-        } else if let childDictionary = value as? [String: Any] {
-            children = childDictionary.keys.compactMap({PropertyListItem(with: $0, value: childDictionary[$0] as Any)})
-        } else {
-            self.value = value
-        }
-    }
-}
-
-public class PropertyListTool: DiagnosticTool {
-    public var displayName: String {
-        return "Property List Viewer"
-    }
-    
-    public func launchUI(in navigationController: UINavigationController) {
-        
-        guard let dictionary = Bundle.main.infoDictionary else {
-            return
-        }
-        
-        let view = PropertyListTableViewController(style: .grouped)
-        view.properties = dictionary.keys.compactMap({PropertyListItem(with: $0, value: dictionary[$0] as Any)})
-        navigationController.show(view, sender: self)
+        let nextViewController = PropertyListTableViewController(style: .grouped)
+        // Sort by keys!
+        nextViewController.properties = properties?[indexPath.row].children?.sorted(by: { (item1, item2) -> Bool in
+            switch (item1.key, item2.key) {
+            case (.some(let key1), .some(let key2)):
+                return key1 < key2
+            case (nil, .some(_)):
+                return false
+            case (.some(_), nil):
+                return true
+            case (nil, nil):
+                return true
+            }
+        })
+        nextViewController.title = properties?[indexPath.row].key
+        navigationController?.show(nextViewController, sender: self)
     }
 }
