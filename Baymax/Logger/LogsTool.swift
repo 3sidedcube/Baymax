@@ -9,13 +9,13 @@
 import Foundation
 
 /// A tool for displaying logs collated using `Logger` objects
-class LogsTool: DiagnosticTool {
+public class LogsTool: DiagnosticTool {
     
-    var displayName: String {
+    public var displayName: String {
         return "Logs"
     }
     
-    func launchUI(in navigationController: UINavigationController) {
+    public func launchUI(in navigationController: UINavigationController) {
         let view = LogsTableViewController(style: .grouped)
         navigationController.show(view, sender: self)
     }

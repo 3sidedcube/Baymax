@@ -8,13 +8,13 @@
 
 import Foundation
 
-class PropertyListTool: DiagnosticTool {
+public class PropertyListTool: DiagnosticTool {
     
-    var displayName: String {
+    public var displayName: String {
         return "Property List Viewer"
     }
     
-    func launchUI(in navigationController: UINavigationController) {
+    public func launchUI(in navigationController: UINavigationController) {
         
         guard let dictionary = Bundle.main.infoDictionary else {
             return
