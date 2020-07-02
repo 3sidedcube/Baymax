@@ -10,12 +10,12 @@ import UIKit
 
 class LogDetailViewController: UIViewController {
     
-    var file: LogFile?
+    let file: LogFile
     
     init(logfile: LogFile) {
         file = logfile
         super.init(nibName: nil, bundle: nil)
-        title = file?.url.lastPathComponent
+        title = file.url.lastPathComponent
     }
     
     required init?(coder: NSCoder) {
@@ -23,7 +23,6 @@ class LogDetailViewController: UIViewController {
     }
     
     @objc func share(_ sender: UIBarButtonItem) {
-        guard let file = file else { return }
         
         guard let shareHandler = LogsTool.shareHandler else {
             shareLogFilesDefault([file], sender: sender)
@@ -46,14 +45,16 @@ class LogDetailViewController: UIViewController {
         present(activityViewController, animated: true, completion: nil)
     }
     
+    private lazy var textView: UITextView = UITextView()
+    
     override func viewDidLoad() {
         
         toolbarItems = [UIBarButtonItem(image: (#imageLiteral(resourceName: "share") as BaymaxImageLiteral).image, style: .plain, target: self, action: #selector(share(_:)))]
         
         super.viewDidLoad()
 
-        let textView = UITextView(frame: view.bounds)
-        if let file = file, let text = try? String(contentsOf: file.url) {
+        textView.frame = view.bounds
+        if let text = try? String(contentsOf: file.url) {
             textView.text = text
         } else {
             textView.text = "Failed to load file"
@@ -61,5 +62,10 @@ class LogDetailViewController: UIViewController {
         
         textView.isEditable = false
         view.addSubview(textView)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        textView.frame = view.bounds
     }
 }

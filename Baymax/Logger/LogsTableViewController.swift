@@ -245,7 +245,7 @@ class LogsTableViewController: UITableViewController {
             return cell
             
         default:
-            return UITableViewCell()
+            fatalError("cellForRowAt called with unexpected section index!")
         }
     }
     
