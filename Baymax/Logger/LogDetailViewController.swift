@@ -10,7 +10,7 @@ import UIKit
 
 class LogDetailViewController: UIViewController {
     
-    let file: LogFile?
+    var file: LogFile?
     
     init(logfile: LogFile) {
         file = logfile
@@ -19,8 +19,7 @@ class LogDetailViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        file = nil
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     @objc func share(_ sender: UIBarButtonItem) {
