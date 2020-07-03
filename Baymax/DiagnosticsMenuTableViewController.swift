@@ -56,7 +56,7 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
             return 0
         }
         
-        let tools = DiagnosticsManager.shared.whitelistedTools(for: providers[section])
+        let tools = DiagnosticsManager.shared.availableTools(for: providers[section])
         return tools.count
     }
     
@@ -64,7 +64,7 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "serviceRow", for: indexPath)
         
-        let providerService = DiagnosticsManager.shared.whitelistedTools(for: providers[indexPath.section])[indexPath.row]
+        let providerService = DiagnosticsManager.shared.availableTools(for: providers[indexPath.section])[indexPath.row]
         
         cell.textLabel?.text = providerService.displayName
         cell.accessoryType = .disclosureIndicator
@@ -81,7 +81,7 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
         guard let navigationController = self.navigationController else {
             return
         }
-        DiagnosticsManager.shared.whitelistedTools(for: providers[indexPath.section])[indexPath.row].launchUI(in: navigationController)
+        DiagnosticsManager.shared.availableTools(for: providers[indexPath.section])[indexPath.row].launchUI(in: navigationController)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
