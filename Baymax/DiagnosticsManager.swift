@@ -56,27 +56,27 @@ public class DiagnosticsManager {
         
     }
     
-    /// Diagnostic providers filtered to remove any blacklisted providers
+    /// Diagnostic providers filtered to remove any hidden providers
     var diagnosticProviders: [DiagnosticsServiceProvider] {
         return _diagnosticProviders.filter { (provider) -> Bool in
-            // Remove any tools from the service that are blacklisted, this also needs to be filtered out on display!
-            let tools = whitelistedTools(for: provider)
-            // Only show the service if it's tools aren't all blacklisted!
-            return !tools.isEmpty && !blacklistedServices.contains(where: { $0 == type(of: provider) })
+            // Remove any tools from the service that are hidden, this also needs to be filtered out on display!
+            let tools = availableTools(for: provider)
+            // Only show the service if it's tools aren't all hidden!
+            return !tools.isEmpty && !hiddenServices.contains(where: { $0 == type(of: provider) })
         }
     }
     
-    internal func whitelistedTools(for serviceProvider: DiagnosticsServiceProvider) -> [DiagnosticTool] {
+    internal func availableTools(for serviceProvider: DiagnosticsServiceProvider) -> [DiagnosticTool] {
         return serviceProvider.diagnosticTools.filter({ (tool) -> Bool in
-            !blacklistedTools.contains(where: { $0 == type(of: tool) })
+            !hiddenTools.contains(where: { $0 == type(of: tool) })
         })
     }
     
     /// An array of services types that should not be displayed. This is useful as tools in frameworks can register themselves
-    private var blacklistedServices = [DiagnosticsServiceProvider.Type]()
+    private var hiddenServices = [DiagnosticsServiceProvider.Type]()
     
     /// An array of diagnostic tools that should not be displayed. This is useful if you only want to allow certain tools within a service.
-    private var blacklistedTools = [DiagnosticTool.Type]()
+    private var hiddenTools = [DiagnosticTool.Type]()
     
     /// Registers a diagnostic tool provider to display in the diagnostic list
     ///
@@ -85,18 +85,18 @@ public class DiagnosticsManager {
         _diagnosticProviders.append(provider)
     }
     
-    /// Blacklists a diagnostic tool provider and ensures it does not display in the list
+    /// Hides a diagnostic tool provider and ensures it does not display in the list
     ///
-    /// - Parameter provider: The provider to blacklist
-    public func blacklist(provider: DiagnosticsServiceProvider.Type) {
-        blacklistedServices.append(provider)
+    /// - Parameter provider: The provider to hide
+    public func hide(provider: DiagnosticsServiceProvider.Type) {
+        hiddenServices.append(provider)
     }
     
-    /// Blacklists an individual diagnostics tool and ensures it does not display in the list
+    /// Hides an individual diagnostics tool and ensures it does not display in the list
     ///
-    /// - Parameter tool: The tool to blacklist
-    public func blacklist(tool: DiagnosticTool.Type) {
-        blacklistedTools.append(tool)
+    /// - Parameter tool: The tool to hide
+    public func hide(tool: DiagnosticTool.Type) {
+        hiddenTools.append(tool)
     }
     
     /// Attaches the diagnostics view to this window. The gesture recogniser will be attached and optionally hidden behind authentication
