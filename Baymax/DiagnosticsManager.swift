@@ -8,6 +8,26 @@
 
 import Foundation
 
+extension UIWindow {
+    
+    /// Returns the window's currently visible view controller
+    var visibleViewController: UIViewController? {
+        var top = self.rootViewController
+        while true {
+            if let presented = top?.presentedViewController {
+                top = presented
+            } else if let nav = top as? UINavigationController {
+                top = nav.visibleViewController
+            } else if let tab = top as? UITabBarController {
+                top = tab.selectedViewController
+            } else {
+                break
+            }
+        }
+        return top
+    }
+}
+
 /// Shared singleton responsible for handling registration of providers
 public class DiagnosticsManager {
     
@@ -32,15 +52,31 @@ public class DiagnosticsManager {
     /// Handles the gesture recogniser delegate, we have to do this as it must be an obj-c object and this class is not
     private let gestureDelegateHandler = GestureDelegateHandler()
     
+    private init() {
+        
+    }
+    
     /// Diagnostic providers filtered to remove any blacklisted providers
     var diagnosticProviders: [DiagnosticsServiceProvider] {
         return _diagnosticProviders.filter { (provider) -> Bool in
-            return !blacklistedServices.contains(where: { $0 == type(of: provider) })
+            // Remove any tools from the service that are blacklisted, this also needs to be filtered out on display!
+            let tools = whitelistedTools(for: provider)
+            // Only show the service if it's tools aren't all blacklisted!
+            return !tools.isEmpty && !blacklistedServices.contains(where: { $0 == type(of: provider) })
         }
+    }
+    
+    internal func whitelistedTools(for serviceProvider: DiagnosticsServiceProvider) -> [DiagnosticTool] {
+        return serviceProvider.diagnosticTools.filter({ (tool) -> Bool in
+            !blacklistedTools.contains(where: { $0 == type(of: tool) })
+        })
     }
     
     /// An array of services types that should not be displayed. This is useful as tools in frameworks can register themselves
     private var blacklistedServices = [DiagnosticsServiceProvider.Type]()
+    
+    /// An array of diagnostic tools that should not be displayed. This is useful if you only want to allow certain tools within a service.
+    private var blacklistedTools = [DiagnosticTool.Type]()
     
     /// Registers a diagnostic tool provider to display in the diagnostic list
     ///
@@ -54,6 +90,13 @@ public class DiagnosticsManager {
     /// - Parameter provider: The provider to blacklist
     public func blacklist(provider: DiagnosticsServiceProvider.Type) {
         blacklistedServices.append(provider)
+    }
+    
+    /// Blacklists an individual diagnostics tool and ensures it does not display in the list
+    ///
+    /// - Parameter tool: The tool to blacklist
+    public func blacklist(tool: DiagnosticTool.Type) {
+        blacklistedTools.append(tool)
     }
     
     /// Attaches the diagnostics view to this window. The gesture recogniser will be attached and optionally hidden behind authentication
@@ -94,9 +137,9 @@ public class DiagnosticsManager {
     }
     
     /// Presents the diagnostics view
-    private func presentDiagnosticsView() {
+    public func presentDiagnosticsView() {
         
-        guard let viewController = hostWindow?.rootViewController else {
+        guard let viewController = hostWindow?.visibleViewController else {
             return
         }
         
