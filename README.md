@@ -2,9 +2,9 @@
 
 Baymax is a diagnostics tool for iOS apps which allows you and 3rd party frameworks to provide diagnostics via a shared interface.
 
-## Installation
+# Installation
 
-### Carthage
+## Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is the our suggested method for including Baymax into your iOS project or framework. Carthage is a package manager which either builds projects and provides you with binaries or uses pre-built frameworks from release tags in GitHub. To add Baymax to your project, simply specify it in your `Cartfile`:
 
@@ -12,9 +12,9 @@ Baymax is a diagnostics tool for iOS apps which allows you and 3rd party framewo
 github "3sidedcube/Baymax" ~> 1.0.0
 ```
 
-## Usage
+# Usage
 
-### Attaching Baymax to your window
+## Attaching Baymax to your window
 
 Baymax must be attached to your app window in order to display UI when the user performs (currently) a 4 finger swipe upwards on the device:
 
@@ -24,7 +24,9 @@ DiagnosticsManager.shared.attach(to: myWindow)
 
 the function accepts a window object, and an optional closure which can be used to provide a login mechanism for accessing Baymax's UI for the case where you might not want users to be able to access your diagnostics tools.
 
-### Registering a set of diagnostic tools
+## Registering a set of diagnostic tools
+
+### `DiagnosticServiceProvider` protocol
 
 To register yourself as a diagnostics provider, you need to conform to the
 `DiagnosticsServiceProvider` and then call:
@@ -33,7 +35,31 @@ To register yourself as a diagnostics provider, you need to conform to the
 DiagnosticsManager.sharedInstance.register(provider: myProvider)
 ```
 
-### Logging
+`DiagnosticsServiceProvider` is a simple protocol which requires only two properties to be implemented:
+
+#### `serviceName` (String)
+
+This provides the readable name which will be displayed at the root level of Baymax's UI. It should represent your tool fairly so users know what each provider in baymax provides for them.
+
+#### `diagnosticsTools` (Array\<DiagnosticTool\>)
+
+This provides an array of tools, which will be rendered for selection when the user clicks the entry in the main UI for your service provider.
+
+### `DiagnosticTool` protocol
+
+`DiagnosticTool` is also a simple protocol with one property, and one function that need implementing
+
+#### `displayName` (String)
+
+This provides the readable name that will be displayed in Baymax's UI once the user has clicked into your provider.
+
+#### `launchUI` (Function)
+
+`func launchUI(in navigationController: UINavigationController)`
+
+`launchUI` function gets passed the current navigation controller that Baymax is using for it's UI, allowing you to push/present whatever UI you would like for your tool. This is called when the user clicks the table cell for an individual tool. 
+
+## Logging
 
 Baymax provides an alternative to Apple's `os_log` function, which will save logs to the user's documents directory, they will also be viewable using the Logs tool provided by default by baymax. The logger can be used like so:
 
