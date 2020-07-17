@@ -47,7 +47,7 @@ This provides an array of tools, which will be rendered for selection when the u
 
 ### `DiagnosticTool` protocol
 
-`DiagnosticTool` is also a simple protocol with one property, and one function that need implementing
+`DiagnosticTool` is also a simple protocol with one property, and one function that need implementing:
 
 #### `displayName` (String)
 
