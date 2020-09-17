@@ -23,12 +23,24 @@
 		B1A0D72F243484FA00DE753D /* LogsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D72E243484FA00DE753D /* LogsTool.swift */; };
 		B1A0D7312434852500DE753D /* LogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D7302434852500DE753D /* LogFile.swift */; };
 		B1A0D7332434854600DE753D /* LogsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D7322434854600DE753D /* LogsTableViewController.swift */; };
+		B1AB3E08251395F500E6823D /* BaymaxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB3E07251395F500E6823D /* BaymaxTests.swift */; };
+		B1AB3E0A251395F500E6823D /* Baymax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49E0687821944A5400F9B93B /* Baymax.framework */; };
 		B1B8061C2434976700112B3D /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */; };
 		B1B8061D2434976700112B3D /* SwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */; };
 		B1B8062B2434B20D00112B3D /* LogDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */; };
 		B1B806302434B55100112B3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1B8062F2434B55100112B3D /* Assets.xcassets */; };
 		B1B806382434EB4800112B3D /* BaymaxImageLiteral.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B1AB3E0B251395F500E6823D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49E0686F21944A5300F9B93B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49E0687721944A5400F9B93B;
+			remoteInfo = Baymax;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4941F7A82195A63300F1081E /* DiagnosticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticsManager.swift; sourceTree = "<group>"; };
@@ -49,6 +61,9 @@
 		B1A0D72E243484FA00DE753D /* LogsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsTool.swift; sourceTree = "<group>"; };
 		B1A0D7302434852500DE753D /* LogFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFile.swift; sourceTree = "<group>"; };
 		B1A0D7322434854600DE753D /* LogsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsTableViewController.swift; sourceTree = "<group>"; };
+		B1AB3E05251395F500E6823D /* BaymaxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaymaxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1AB3E07251395F500E6823D /* BaymaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaymaxTests.swift; sourceTree = "<group>"; };
+		B1AB3E09251395F500E6823D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
 		B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +79,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B1AB3E02251395F500E6823D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1AB3E0A251395F500E6823D /* Baymax.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -71,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				49E0687A21944A5400F9B93B /* Baymax */,
+				B1AB3E06251395F500E6823D /* BaymaxTests */,
 				49E0687921944A5400F9B93B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -79,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				49E0687821944A5400F9B93B /* Baymax.framework */,
+				B1AB3E05251395F500E6823D /* BaymaxTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,6 +150,15 @@
 			path = Logger;
 			sourceTree = "<group>";
 		};
+		B1AB3E06251395F500E6823D /* BaymaxTests */ = {
+			isa = PBXGroup;
+			children = (
+				B1AB3E07251395F500E6823D /* BaymaxTests.swift */,
+				B1AB3E09251395F500E6823D /* Info.plist */,
+			);
+			path = BaymaxTests;
+			sourceTree = "<group>";
+		};
 		B1B8061E2434977A00112B3D /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,18 +202,40 @@
 			productReference = 49E0687821944A5400F9B93B /* Baymax.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		B1AB3E04251395F500E6823D /* BaymaxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1AB3E0D251395F500E6823D /* Build configuration list for PBXNativeTarget "BaymaxTests" */;
+			buildPhases = (
+				B1AB3E01251395F500E6823D /* Sources */,
+				B1AB3E02251395F500E6823D /* Frameworks */,
+				B1AB3E03251395F500E6823D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B1AB3E0C251395F500E6823D /* PBXTargetDependency */,
+			);
+			name = BaymaxTests;
+			productName = BaymaxTests;
+			productReference = B1AB3E05251395F500E6823D /* BaymaxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		49E0686F21944A5300F9B93B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "3 SIDED CUBE";
 				TargetAttributes = {
 					49E0687721944A5400F9B93B = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
+					};
+					B1AB3E04251395F500E6823D = {
+						CreatedOnToolsVersion = 12.0;
 					};
 				};
 			};
@@ -196,6 +252,7 @@
 			projectRoot = "";
 			targets = (
 				49E0687721944A5400F9B93B /* Baymax */,
+				B1AB3E04251395F500E6823D /* BaymaxTests */,
 			);
 		};
 /* End PBXProject section */
@@ -208,6 +265,13 @@
 				49FD39A0219B0AAE00963C41 /* InformationTableViewCell.xib in Resources */,
 				B1B806302434B55100112B3D /* Assets.xcassets in Resources */,
 				B1B8061D2434976700112B3D /* SwitchTableViewCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1AB3E03251395F500E6823D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +302,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B1AB3E01251395F500E6823D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1AB3E08251395F500E6823D /* BaymaxTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B1AB3E0C251395F500E6823D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49E0687721944A5400F9B93B /* Baymax */;
+			targetProxy = B1AB3E0B251395F500E6823D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		49E0687E21944A5400F9B93B /* Debug */ = {
@@ -382,7 +462,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.threesidedcube.Baymax;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -411,10 +491,50 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.threesidedcube.Baymax;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B1AB3E0E251395F500E6823D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 25H7BM6YWK;
+				INFOPLIST_FILE = BaymaxTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.3sidedcube.BaymaxTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B1AB3E0F251395F500E6823D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 25H7BM6YWK;
+				INFOPLIST_FILE = BaymaxTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.3sidedcube.BaymaxTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -437,6 +557,15 @@
 			buildConfigurations = (
 				49E0688121944A5400F9B93B /* Debug */,
 				49E0688221944A5400F9B93B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1AB3E0D251395F500E6823D /* Build configuration list for PBXNativeTarget "BaymaxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1AB3E0E251395F500E6823D /* Debug */,
+				B1AB3E0F251395F500E6823D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
