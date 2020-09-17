@@ -1,5 +1,7 @@
 # Baymax
 
+[![Build Status](https://travis-ci.org/3sidedcube/Baymax.svg)](https://travis-ci.org/3sidedcube/Baymax) [![Swift 5.3](http://img.shields.io/badge/swift-5.3-brightgreen.svg)](https://swift.org/blog/swift-5-3-released/) [![Apache 2](https://img.shields.io/badge/license-GNU%20General%20Public%20License%20v3.0-brightgreen.svg)](LICENSE.md)
+
 Baymax is a diagnostics tool for iOS apps which allows you and 3rd party frameworks to provide diagnostics via a shared interface.
 
 # Installation
