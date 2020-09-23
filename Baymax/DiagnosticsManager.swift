@@ -112,7 +112,14 @@ public class DiagnosticsManager {
         authenticationRequestClosure = authenticationHandler
         
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
-        swipeGesture.numberOfTouchesRequired = 4
+                
+        #if targetEnvironment(simulator)
+        let numberOfTouches = 2
+        #else
+        let numberOfTouches = UIDevice.current.userInterfaceIdiom == .pad ? 3 : 4
+        #endif
+        
+        swipeGesture.numberOfTouchesRequired = numberOfTouches
         swipeGesture.direction = .up
         swipeGesture.delegate = gestureDelegateHandler
         
