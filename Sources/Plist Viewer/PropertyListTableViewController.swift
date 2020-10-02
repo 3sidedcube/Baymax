@@ -15,7 +15,7 @@ class PropertyListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = false
-        tableView.register(UINib(nibName: "InformationTableViewCell", bundle: Bundle(for: PropertyListTableViewController.self)), forCellReuseIdentifier: "propertyRow")
+        tableView.register(UINib(nibName: "InformationTableViewCell", bundle: .current), forCellReuseIdentifier: "propertyRow")
     }
     
     // MARK: - Table view data source

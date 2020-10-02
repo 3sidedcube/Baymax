@@ -8,10 +8,6 @@
 
 import UIKit
 
-private class BaymaxClassForBundle {
-    
-}
-
 /// A wrapper for Image Literals which allow them being pulled from Baymax's `Assets.xcassets`
 struct BaymaxImageLiteral: _ExpressibleByImageLiteral {
     
@@ -19,7 +15,6 @@ struct BaymaxImageLiteral: _ExpressibleByImageLiteral {
     let image: UIImage?
     
     init(imageLiteralResourceName name: String) {
-        let bundle = Bundle(for: BaymaxClassForBundle.self)
-        image = UIImage(named: name, in: bundle, compatibleWith: nil)
+        image = UIImage(named: name, in: .current, compatibleWith: nil)
     }
 }
