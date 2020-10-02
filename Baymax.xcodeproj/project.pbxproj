@@ -53,7 +53,7 @@
 		49FD39992199870200963C41 /* PropertyListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListTableViewController.swift; sourceTree = "<group>"; };
 		49FD399B2199BAC000963C41 /* BaymaxServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaymaxServices.swift; sourceTree = "<group>"; };
 		49FD399D219B0AAE00963C41 /* InformationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationTableViewCell.swift; sourceTree = "<group>"; };
-		49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InformationTableViewCell.xib; sourceTree = "<group>"; };
+		49FD399E219B0AAE00963C41 /* InformationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = InformationTableViewCell.xib; path = ../Resources/InformationTableViewCell.xib; sourceTree = "<group>"; };
 		B18CB3E8243E275400F16094 /* PlistValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistValue.swift; sourceTree = "<group>"; };
 		B18CB3EA243E276C00F16094 /* PropertyListTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListTool.swift; sourceTree = "<group>"; };
 		B18CB3EC243E278000F16094 /* PropertyListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListItem.swift; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		B1AB3E07251395F500E6823D /* BaymaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaymaxTests.swift; sourceTree = "<group>"; };
 		B1AB3E09251395F500E6823D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
-		B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
+		B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SwitchTableViewCell.xib; path = ../Resources/SwitchTableViewCell.xib; sourceTree = "<group>"; };
 		B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailViewController.swift; sourceTree = "<group>"; };
 		B1B8062F2434B55100112B3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1B806372434EB4800112B3D /* BaymaxImageLiteral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaymaxImageLiteral.swift; sourceTree = "<group>"; };

@@ -25,6 +25,9 @@ let package = Package(
             name: "Baymax",
             path: "Sources",
             exclude: ["Info.plist"],
+            resources: [
+                .process("Resources")
+            ],
             linkerSettings: [
                 .linkedFramework("UIKit")
             ])
