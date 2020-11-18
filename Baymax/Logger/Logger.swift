@@ -65,6 +65,9 @@ public struct Logger: TextOutputStream {
     /// The domain mask the log will save to
     private let domainMask: FileManager.SearchPathDomainMask
     
+    /// The dispatch queue to perform logs on, to make sure
+    private let logQueue = DispatchQueue(label: "baymax_logger", qos: .utility)
+    
     private let fm = FileManager.default
     
     internal var directory: URL? {        
@@ -113,12 +116,16 @@ public struct Logger: TextOutputStream {
         guard let directory = directory else { return }
         let log = directory.appendingPathComponent(fileName)
         
-        if let handle = try? FileHandle(forWritingTo: log) {
-            handle.seekToEndOfFile()
-            handle.write(writeString.data(using: .utf8)!)
-            handle.closeFile()
-        } else {
-            try? writeString.data(using: .utf8)?.write(to: log)
+        // Using `async` means the calling thread won't block, but we are still writing to the
+        // log file atomically
+        logQueue.async {
+            if let handle = try? FileHandle(forWritingTo: log) {
+                handle.seekToEndOfFile()
+                handle.write(writeString.data(using: .utf8)!)
+                handle.closeFile()
+            } else {
+                try? writeString.data(using: .utf8)?.write(to: log)
+            }
         }
     }
 }
