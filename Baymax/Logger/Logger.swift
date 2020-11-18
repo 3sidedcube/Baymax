@@ -113,7 +113,7 @@ public struct Logger: TextOutputStream {
             writeString = "\(formatter.string(from: Date())) \(writeString)"
         }
         
-        guard let directory = directory else { return }
+        guard let directory = directory, let writeData = writeString.data(using: .utf8) else { return }
         let log = directory.appendingPathComponent(fileName)
         
         // Using `async` means the calling thread won't block, but we are still writing to the
@@ -121,10 +121,10 @@ public struct Logger: TextOutputStream {
         logQueue.async {
             if let handle = try? FileHandle(forWritingTo: log) {
                 handle.seekToEndOfFile()
-                handle.write(writeString.data(using: .utf8)!)
+                handle.write(writeData)
                 handle.closeFile()
             } else {
-                try? writeString.data(using: .utf8)?.write(to: log)
+                try? writeData.write(to: log)
             }
         }
     }
