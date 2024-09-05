@@ -23,7 +23,6 @@
 		B1A0D72F243484FA00DE753D /* LogsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D72E243484FA00DE753D /* LogsTool.swift */; };
 		B1A0D7312434852500DE753D /* LogFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D7302434852500DE753D /* LogFile.swift */; };
 		B1A0D7332434854600DE753D /* LogsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0D7322434854600DE753D /* LogsTableViewController.swift */; };
-		B1AB3E08251395F500E6823D /* BaymaxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AB3E07251395F500E6823D /* BaymaxTests.swift */; };
 		B1AB3E0A251395F500E6823D /* Baymax.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49E0687821944A5400F9B93B /* Baymax.framework */; };
 		B1B8061C2434976700112B3D /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */; };
 		B1B8061D2434976700112B3D /* SwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */; };
@@ -62,8 +61,6 @@
 		B1A0D7302434852500DE753D /* LogFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFile.swift; sourceTree = "<group>"; };
 		B1A0D7322434854600DE753D /* LogsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsTableViewController.swift; sourceTree = "<group>"; };
 		B1AB3E05251395F500E6823D /* BaymaxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaymaxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B1AB3E07251395F500E6823D /* BaymaxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaymaxTests.swift; sourceTree = "<group>"; };
-		B1AB3E09251395F500E6823D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1B8061A2434976700112B3D /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		B1B8061B2434976700112B3D /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
 		B1B8062A2434B20D00112B3D /* LogDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				49E0687A21944A5400F9B93B /* Baymax */,
-				B1AB3E06251395F500E6823D /* BaymaxTests */,
 				49E0687921944A5400F9B93B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -148,15 +144,6 @@
 				B1A0D7302434852500DE753D /* LogFile.swift */,
 			);
 			path = Logger;
-			sourceTree = "<group>";
-		};
-		B1AB3E06251395F500E6823D /* BaymaxTests */ = {
-			isa = PBXGroup;
-			children = (
-				B1AB3E07251395F500E6823D /* BaymaxTests.swift */,
-				B1AB3E09251395F500E6823D /* Info.plist */,
-			);
-			path = BaymaxTests;
 			sourceTree = "<group>";
 		};
 		B1B8061E2434977A00112B3D /* Table View Cells */ = {
@@ -308,7 +295,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1AB3E08251395F500E6823D /* BaymaxTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
