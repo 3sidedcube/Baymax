@@ -6,7 +6,7 @@
 //  Copyright © 2020 3 SIDED CUBE. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// A tool for displaying logs collated using `Logger` objects
 public class LogsTool: DiagnosticTool {

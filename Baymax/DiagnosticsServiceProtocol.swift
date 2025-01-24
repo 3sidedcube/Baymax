@@ -6,7 +6,7 @@
 //  Copyright © 2018 3 SIDED CUBE. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public protocol DiagnosticTool {
     
