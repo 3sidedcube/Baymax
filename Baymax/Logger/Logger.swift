@@ -9,13 +9,14 @@
 import Foundation
 import os.log
 
-/// Logs a string to a given instance of `Log`
+/// Logs a formatted message.
+///
 /// - Parameters:
-///   - message: The message to be logged
-///   - subsystem: The subsystem of the log (Defaults to Bundle.main.bundleIdentifier)
-///   - category: The category of the log
-///   - log: The log to append to
-///   - type: The type of the log
+///   - message: The content to log.
+///   - subsystem: Log subsystem (defaults to `Bundle.main.bundleIdentifier`).
+///   - category: Log category (defaults to `"Default"`).
+///   - log: The `Logger` instance to write to.
+///   - type: The log type (e.g. `.debug`, `.error`, etc.).
 public func baymax_log(
     _ message: String,
     subsystem: String = Bundle.main.bundleIdentifier ?? "",
@@ -25,6 +26,15 @@ public func baymax_log(
 ) {
     let constructedMessage = "[\(type.rawValue.uppercased())] | \(subsystem) (\(category)) | \(message)"
     var _log = log
+
+    // Only run debug logs if the user is debugging.
+    // These logs should not happen in production code.
+    if type == .debug {
+        #if !DEBUG
+        return
+        #endif
+    }
+
     print(constructedMessage, to: &_log)
 }
 
