@@ -1,6 +1,4 @@
-// swift-tools-version: 5.7
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
+// swift-tools-version:5.7
 import PackageDescription
 
 let package = Package(
@@ -17,24 +15,17 @@ let package = Package(
     targets: [
         .target(
             name: "Baymax",
-            path: "Baymax",
-            exclude: [
-                "Baymax.h",
-                "Info.plist"
-            ],
+            path: "Sources/Baymax",
             resources: [
-                .copy("Table View Cells/InformationTableViewCell.xib"),
-                .copy("Table View Cells/SwitchTableViewCell.xib"),
-                .copy("Assets.xcassets")
+                .process("Table View Cells/InformationTableViewCell.xib"),
+                .process("Table View Cells/SwitchTableViewCell.xib"),
+                .process("Assets.xcassets")
             ]
         ),
         .testTarget(
             name: "BaymaxTests",
             dependencies: ["Baymax"],
-            path: "BaymaxTests",
-            exclude: [
-                "Info.plist"
-            ]
+            path: "Tests/BaymaxTests"
         )
     ]
 )
