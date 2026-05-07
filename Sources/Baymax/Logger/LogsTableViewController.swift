@@ -50,8 +50,8 @@ class LogsTableViewController: UITableViewController {
         ]
         
         navigationController?.navigationBar.prefersLargeTitles = false
-        tableView.register(UINib(nibName: "InformationTableViewCell", bundle: Bundle(for: LogsTableViewController.self)), forCellReuseIdentifier: "propertyRow")
-        tableView.register(UINib(nibName: "SwitchTableViewCell", bundle: Bundle(for: LogsTableViewController.self)), forCellReuseIdentifier: "switchRow")
+        tableView.register(UINib(nibName: "InformationTableViewCell", bundle: .module), forCellReuseIdentifier: "propertyRow")
+        tableView.register(UINib(nibName: "SwitchTableViewCell", bundle: .module), forCellReuseIdentifier: "switchRow")
         
         let fm = FileManager.default
         guard let directory = Logger.shared.directory else { return }
