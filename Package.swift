@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Baymax",
     platforms: [
-        .iOS(.v14)
+        .iOS("18.0")
     ],
     products: [
         .library(
