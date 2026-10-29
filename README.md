@@ -6,30 +6,13 @@ Baymax is a diagnostics tool for iOS apps which allows you and 3rd party framewo
 
 # Installation
 
-## Swift Package Manager
-
-The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler. 
-
-Once you have your Swift package set up, adding Alamofire as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+Add the package with Swift Package Manager, either in Xcode (File › Add Package Dependencies…) or in a `Package.swift`:
 
 ```swift
-dependencies: [
-    .package(url: "https://github.com/3sidedcube/Baymax.git", branch: "release/v3.0.0")
-]
+.package(url: "https://github.com/3sidedcube/Baymax.git", from: "27.1.0")
 ```
 
-## Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a package manager which either builds projects and provides you with binaries or uses pre-built frameworks from release tags in GitHub. To add Baymax to your project, simply specify it in your `Cartfile`:
-
-```ogdl
-github "3sidedcube/Baymax" "release/v3.0.0"
-```
-
-We recommend that you build with `xcframework`s:
-```bash
-carthage update --platform ios --use-xcframeworks
-```
+`Baymax` is a dynamic library product. Add it to your app target with **Embed & Sign**; other targets that use it (frameworks, app extensions, test bundles) link it without embedding, so the app loads a single copy.
 
 # Usage
 
