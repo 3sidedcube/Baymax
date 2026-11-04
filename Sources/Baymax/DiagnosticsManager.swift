@@ -51,9 +51,33 @@ public class DiagnosticsManager {
     
     /// Handles the gesture recogniser delegate, we have to do this as it must be an obj-c object and this class is not
     private let gestureDelegateHandler = GestureDelegateHandler()
-    
-    private init() {
-        
+
+    /// The swipe gesture that opens Baymax. One instance, moved between windows, so attaching repeatedly never stacks gestures.
+    private lazy var swipeGesture: UISwipeGestureRecognizer = {
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
+
+        #if targetEnvironment(simulator)
+        gesture.numberOfTouchesRequired = 2
+        #else
+        gesture.numberOfTouchesRequired = UIDevice.current.userInterfaceIdiom == .pad ? 3 : 4
+        #endif
+
+        gesture.direction = .up
+        gesture.delegate = gestureDelegateHandler
+        return gesture
+    }()
+
+    /// Whether `BaymaxServices` has been registered by `attach(to:)`
+    private var hasRegisteredBaymaxServices = false
+
+    /// Whether Baymax has been attached to a window
+    public var isAttached: Bool {
+        return hostWindow != nil
+    }
+
+    /// Internal so tests can use a fresh instance; apps use `shared`.
+    init() {
+
     }
     
     /// Diagnostic providers filtered to remove any hidden providers
@@ -101,28 +125,25 @@ public class DiagnosticsManager {
     
     /// Attaches the diagnostics view to this window. The gesture recogniser will be attached and optionally hidden behind authentication
     ///
+    /// Safe to call more than once: `BaymaxServices` is registered once, and the gesture moves to `window`
+    /// rather than being added again. Each call replaces the authentication handler.
+    ///
     /// - Parameters:
     ///   - window: The window to attach the gesture recogniser to
     ///   - authenticationHandler: A closure that you should use to handle authentication, if desired
     public func attach(to window: UIWindow, authenticationHandler: AuthenticationRequestClosure? = nil) {
-        
-        DiagnosticsManager.shared.register(provider: BaymaxServices())
-        
-        hostWindow = window
+
+        if !hasRegisteredBaymaxServices {
+            register(provider: BaymaxServices())
+            hasRegisteredBaymaxServices = true
+        }
+
         authenticationRequestClosure = authenticationHandler
-        
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
-                
-        #if targetEnvironment(simulator)
-        let numberOfTouches = 2
-        #else
-        let numberOfTouches = UIDevice.current.userInterfaceIdiom == .pad ? 3 : 4
-        #endif
-        
-        swipeGesture.numberOfTouchesRequired = numberOfTouches
-        swipeGesture.direction = .up
-        swipeGesture.delegate = gestureDelegateHandler
-        
+
+        guard hostWindow !== window else { return }
+
+        hostWindow?.removeGestureRecognizer(swipeGesture)
+        hostWindow = window
         window.addGestureRecognizer(swipeGesture)
     }
     

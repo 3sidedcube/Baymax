@@ -61,6 +61,39 @@ This provides the readable name that will be displayed in Baymax's UI once the u
 
 `launchUI` function gets passed the current navigation controller that Baymax is using for it's UI, allowing you to push/present whatever UI you would like for your tool. This is called when the user clicks the table cell for an individual tool. 
 
+### SwiftUI tools
+
+Conform to `SwiftUIDiagnosticTool` instead and return your view from `makeView()`. Baymax hosts it and pushes it for you, titled with `displayName`, so there's no need to implement `launchUI`:
+
+```swift
+struct FeatureFlagsTool: SwiftUIDiagnosticTool {
+    var displayName: String { "Feature flags" }
+    func makeView() -> some View { FeatureFlagsScreen() }
+}
+```
+
+SwiftUI tools go in `diagnosticTools` alongside UIKit ones.
+
+## SwiftUI apps
+
+Apps without a UIKit window to pass to `attach(to:)` can attach Baymax from their root view:
+
+```swift
+@main
+struct MyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .baymaxDiagnostics(enabled: showDebug)
+        }
+    }
+}
+```
+
+Pass `enabled: false` (e.g. in production builds) to never attach Baymax. The modifier does nothing if Baymax is already attached, and attaches to the first window it appears in.
+
+`attach(to:)` itself is safe to call more than once, and `DiagnosticsManager.shared.isAttached` reports whether Baymax is attached.
+
 ## Logging
 
 Baymax provides an alternative to Apple's `os_log` function, which will save logs to the user's documents directory, they will also be viewable using the Logs tool provided by default by baymax. The logger can be used like so:

@@ -16,5 +16,6 @@ public protocol DiagnosticTool {
     /// Called when the tool is activated. You must use this to present your tool's UI on the navigation stack.
     ///
     /// - Parameter navigationController: The navigation controller that can be used to present or push the view
+    @MainActor
     func launchUI(in navigationController: UINavigationController)
 }
