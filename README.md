@@ -137,6 +137,35 @@ the function also supports providing a `subsystem` like the `os_log` function. T
 
 ## Default Tools
 
+### App & device info
+
+Shows the app's name, version, build and bundle ID, and the device's model, iOS version, locale and time zone. Tap a row to copy its value, or use the share button to share everything as text, e.g. into a ticket or Slack.
+
+Values only the app knows are recorded with `AppInfoTool.record(_:)`, whenever they change. Recording again replaces the earlier value (same token type, or same `custom` title):
+
+```swift
+// didRegisterForRemoteNotificationsWithDeviceToken
+// (with Firebase Messaging swizzling and no such method, use Messaging.messaging().apnsToken)
+AppInfoTool.record(.apnsToken(deviceToken: deviceToken))
+
+// Firebase Cloud Messaging: messaging(_:didReceiveRegistrationToken:)
+AppInfoTool.record(.fcmToken(fcmToken))
+
+// Anything else
+AppInfoTool.record(.custom(title: "Environment", value: "dev"))
+```
+
+Values Baymax should fetch itself are supplied with `AppInfoTool.provide(_:)`. The closure runs only when the tool opens, never at launch, and its values replace recorded ones with the same identity. For example, the App Check token Firebase currently holds (only its expiry is shown, never the token):
+
+```swift
+AppInfoTool.provide {
+    guard let token = try? await AppCheck.appCheck().token(forcingRefresh: false) else { return [] }
+    return [.appCheckToken(token.token)]
+}
+```
+
+`forcingRefresh: false` returns Firebase's saved token while it's valid; once it has expired, Firebase creates a new one.
+
 ### UserDefaults
 
 Lists the app's own UserDefaults keys, with search. Apple's global keys are in a read-only "System keys" section at the bottom, folded by default. Strings, numbers, bools and dates can be edited, and keys deleted with a swipe. Arrays and dictionaries open as a list of their items, which can be edited or deleted at any depth; changes are kept until Save, and Cancel discards them. Data values are read-only.

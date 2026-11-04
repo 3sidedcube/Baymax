@@ -16,6 +16,6 @@ public class BaymaxServices: DiagnosticsServiceProvider {
     }
     
     public var diagnosticTools: [DiagnosticTool] {
-        return [UserDefaultsTool(), PropertyListTool(), LogsTool()]
+        return [AppInfoTool(), UserDefaultsTool(), PropertyListTool(), LogsTool()]
     }
 }
