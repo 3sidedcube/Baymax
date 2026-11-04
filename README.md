@@ -178,6 +178,10 @@ UserDefaultsTool.protectedKeys = ["authorizationCredentials", "persistedDeviceID
 
 Some apps read values only at launch, so a change may need a relaunch to take effect.
 
+### GA DebugView
+
+Only listed when Firebase is in the app. A switch turns Firebase Analytics DebugView on or off without the `-FIRDebugEnabled` launch argument, so it works on TestFlight builds. Relaunch the app afterwards, because Firebase reads the setting only at launch. Baymax doesn't depend on Firebase: the switch writes the UserDefaults keys the launch argument writes (`/google/firebase/debug_mode`, `/google/measurement/debug_mode`). These keys are undocumented, so re-check the tool after Firebase SDK upgrades.
+
 ### Logging
 
 The logging tool allows you to view, share and delete logs created by calling `baymax_log` or manually using a `Logger` object.
