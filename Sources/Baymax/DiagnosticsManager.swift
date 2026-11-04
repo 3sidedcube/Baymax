@@ -142,29 +142,43 @@ public class DiagnosticsManager {
 
         guard hostWindow !== window else { return }
 
+        let wasAttached = isAttached
         hostWindow?.removeGestureRecognizer(swipeGesture)
         hostWindow = window
         window.addGestureRecognizer(swipeGesture)
+
+        if !wasAttached {
+            NotificationCenter.default.post(name: Self.attachmentDidChangeNotification, object: self)
+        }
     }
-    
-    /// Handles the swipe gesture recogniser on the window, if assigned
-    @objc private func handleSwipeGesture() {
-        
+
+    /// Posted (with the manager as `object`) when `isAttached` changes, so entry controls can show themselves.
+    static let attachmentDidChangeNotification = Notification.Name("BaymaxAttachmentDidChange")
+
+    /// Opens Baymax, running the authentication handler first if one was given to `attach(to:)`.
+    /// Shared by the swipe gesture and the entry controls. Does nothing if Baymax isn't attached.
+    func requestPresentation() {
+
+        guard isAttached else { return }
+
         guard let authenticationHandler = authenticationRequestClosure else {
-            
             presentDiagnosticsView()
             return
         }
-        
+
         authenticationHandler({ [weak self] authenticated in
-            
             if authenticated {
                 self?.presentDiagnosticsView()
             }
         })
     }
-    
-    /// Presents the diagnostics view
+
+    /// Handles the swipe gesture recogniser on the window, if assigned
+    @objc private func handleSwipeGesture() {
+        requestPresentation()
+    }
+
+    /// Presents the diagnostics view. Skips the authentication handler; the swipe gesture and entry controls go through it.
     public func presentDiagnosticsView() {
         
         guard let viewController = hostWindow?.visibleViewController else {

@@ -94,6 +94,38 @@ Pass `enabled: false` (e.g. in production builds) to never attach Baymax. The mo
 
 `attach(to:)` itself is safe to call more than once, and `DiagnosticsManager.shared.isAttached` reports whether Baymax is attached.
 
+## Opening Baymax without the gesture
+
+Some environments can't perform the multi-finger swipe (e.g. Simulator-based device farms that only send single touches). Baymax ships SwiftUI controls that open it with one tap. Place them where they suit your app.
+
+All of them:
+- **are only shown on the Simulator.** They're always hidden on real devices, so they never appear in release builds; there, Baymax is opened with the multi-finger swipe gesture;
+- **are hidden while Baymax isn't attached**, so they also disappear in builds that never call `attach(to:)`;
+- **run the authentication handler** given to `attach(to:)`, if any, before showing Baymax.
+
+| Control | Use when |
+|---|---|
+| `BaymaxRow()` | You have a plain `List` / `Form` (e.g. a Settings or More screen) |
+| `BaymaxEntry { open in … }` | Your rows use your own design system |
+| `.baymaxButton()` | You'd rather have a small draggable button on one screen |
+
+```swift
+// Plain row
+List {
+    ...
+    BaymaxRow()
+}
+
+// Your own row component
+BaymaxEntry { open in
+    MyListItem(title: "Diagnostics", onTap: open)
+}
+
+// Floating button on one screen
+MoreScreen()
+    .baymaxButton()
+```
+
 ## Logging
 
 Baymax provides an alternative to Apple's `os_log` function, which will save logs to the user's documents directory, they will also be viewable using the Logs tool provided by default by baymax. The logger can be used like so:
