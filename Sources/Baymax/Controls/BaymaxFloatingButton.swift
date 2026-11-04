@@ -17,7 +17,11 @@ extension View {
     /// - Important: Only shown on the Simulator (e.g. DeviceHub, which can't perform the multi-finger swipe).
     ///   Always hidden on real devices, so it never appears in release builds; there, Baymax is opened with the multi-finger swipe gesture.
     public func baymaxButton() -> some View {
-        overlay { BaymaxFloatingButton(manager: .shared) }
+        overlay {
+#if targetEnvironment(simulator)
+            BaymaxFloatingButton(manager: .shared)
+#endif
+        }
     }
 }
 
