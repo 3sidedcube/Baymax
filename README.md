@@ -137,6 +137,18 @@ the function also supports providing a `subsystem` like the `os_log` function. T
 
 ## Default Tools
 
+### UserDefaults
+
+Lists the app's own UserDefaults keys, with search. Apple's global keys are in a read-only "System keys" section at the bottom, folded by default. Strings, numbers, bools and dates can be edited, and keys deleted with a swipe. Arrays and dictionaries open as a list of their items, which can be edited or deleted at any depth; changes are kept until Save, and Cancel discards them. Data values are read-only.
+
+Protect keys that an edit would corrupt or that would break the app, such as encrypted values or device identifiers. Protected keys are shown with a lock and can't be edited or deleted:
+
+```swift
+UserDefaultsTool.protectedKeys = ["authorizationCredentials", "persistedDeviceID"]
+```
+
+Some apps read values only at launch, so a change may need a relaunch to take effect.
+
 ### Logging
 
 The logging tool allows you to view, share and delete logs created by calling `baymax_log` or manually using a `Logger` object.
