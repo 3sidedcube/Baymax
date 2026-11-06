@@ -118,6 +118,84 @@ struct EntryControlsTests {
         #expect(presentedMenu(in: window))
     }
 
+    // MARK: - Shake to show
+
+    private func makeVisibility() -> EntryVisibility {
+        let suiteName = "BaymaxTests.EntryVisibility"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        return EntryVisibility(defaults: defaults)
+    }
+
+    @Test("Controls start hidden")
+    func visibilityDefaultsHidden() {
+        #expect(!makeVisibility().isVisible)
+    }
+
+    @Test("Toggling is remembered across launches")
+    func visibilityPersists() {
+        let suiteName = "BaymaxTests.EntryVisibility"
+        let visibility = makeVisibility()
+
+        visibility.toggle()
+        #expect(visibility.isVisible)
+        #expect(EntryVisibility(defaults: UserDefaults(suiteName: suiteName)!).isVisible)
+
+        visibility.toggle()
+        #expect(!EntryVisibility(defaults: UserDefaults(suiteName: suiteName)!).isVisible)
+    }
+
+    @Test("Shake toggles the controls while attached")
+    func shakeTogglesWhenAttached() {
+        let manager = DiagnosticsManager(entryVisibility: makeVisibility())
+        manager.attach(to: makeWindow())
+
+        manager.handleShake()
+        #expect(manager.entryVisibility.isVisible)
+
+        manager.handleShake()
+        #expect(!manager.entryVisibility.isVisible)
+    }
+
+    @Test("Shake is ignored while not attached")
+    func shakeIgnoredWhenDetached() {
+        let manager = DiagnosticsManager(entryVisibility: makeVisibility())
+
+        manager.handleShake()
+
+        #expect(!manager.entryVisibility.isVisible)
+    }
+
+    @Test("Entry content is shown only when attached and switched on")
+    func entryShownWhenAttachedAndVisible() {
+        let manager = DiagnosticsManager(entryVisibility: makeVisibility())
+        let state = AttachmentState(manager: manager)
+        #expect(!state.isShown)
+
+        manager.attach(to: makeWindow())
+        #expect(!state.isShown)
+
+        manager.handleShake()
+        #expect(state.isShown)
+
+        manager.handleShake()
+        #expect(!state.isShown)
+    }
+
+    @Test("A shake on a window reaches the shared manager")
+    func windowShakeReachesSharedManager() {
+        let manager = DiagnosticsManager.shared
+        manager.attach(to: makeWindow())
+        let wasVisible = manager.entryVisibility.isVisible
+        defer {
+            if manager.entryVisibility.isVisible != wasVisible { manager.entryVisibility.toggle() }
+        }
+
+        makeWindow().motionEnded(.motionShake, with: nil)
+
+        #expect(manager.entryVisibility.isVisible != wasVisible)
+    }
+
     // MARK: - Floating button
 
     @Test("Floating button stays inside the container with a margin")
