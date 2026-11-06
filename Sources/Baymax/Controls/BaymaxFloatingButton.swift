@@ -12,7 +12,7 @@ extension View {
 
     /// Adds a small draggable button over this view that opens Baymax.
     /// Apply it to one screen's root view; the button exists only on that screen,
-    /// and is hidden while Baymax isn't attached (e.g. in production builds).
+    /// and is hidden while Baymax isn't attached (e.g. in production builds), or until the Simulator is shaken.
     ///
     /// - Important: Only shown on the Simulator (e.g. DeviceHub, which can't perform the multi-finger swipe).
     ///   Always hidden on real devices, so it never appears in release builds; there, Baymax is opened with the multi-finger swipe gesture.

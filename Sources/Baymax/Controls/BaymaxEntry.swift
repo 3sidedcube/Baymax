@@ -9,7 +9,8 @@
 import Combine
 import SwiftUI
 
-/// Shows its content only while Baymax is attached, and hands it an `open` action.
+/// Shows its content only while Baymax is attached and the controls are switched on, and hands it an `open` action.
+/// The controls start hidden; shake the Simulator (Device › Shake, ⌃⌘Z) to show or hide them.
 ///
 /// Use it to open Baymax from a control styled like the rest of your app:
 /// ```swift
@@ -38,29 +39,41 @@ public struct BaymaxEntry<Content: View>: View {
     public var body: some View {
         // Simulator only: on real devices (every release build), Baymax is opened with the swipe gesture.
         #if targetEnvironment(simulator)
-        if attachment.isAttached {
+        if attachment.isShown {
             content(attachment.open)
         }
         #endif
     }
 }
 
-/// Mirrors `DiagnosticsManager.isAttached` and updates when Baymax attaches.
+/// Mirrors `DiagnosticsManager.isAttached` and the shake switch, updating when either changes.
 final class AttachmentState: ObservableObject {
 
     @Published private(set) var isAttached: Bool
+    @Published private(set) var isVisible: Bool
+
+    /// Whether the entry's content is shown
+    var isShown: Bool { isAttached && isVisible }
 
     private let manager: DiagnosticsManager
-    private var cancellable: AnyCancellable?
+    private var cancellables = Set<AnyCancellable>()
 
     init(manager: DiagnosticsManager) {
         self.manager = manager
         isAttached = manager.isAttached
-        cancellable = NotificationCenter.default
+        isVisible = manager.entryVisibility.isVisible
+        NotificationCenter.default
             .publisher(for: DiagnosticsManager.attachmentDidChangeNotification, object: manager)
             .sink { [weak self] _ in
                 self?.isAttached = manager.isAttached
             }
+            .store(in: &cancellables)
+        manager.entryVisibility.$isVisible
+            .dropFirst()
+            .sink { [weak self] in
+                self?.isVisible = $0
+            }
+            .store(in: &cancellables)
     }
 
     func open() {

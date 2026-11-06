@@ -100,6 +100,7 @@ Some environments can't perform the multi-finger swipe (e.g. Simulator-based dev
 
 All of them:
 - **are only shown on the Simulator.** They're always hidden on real devices, so they never appear in release builds; there, Baymax is opened with the multi-finger swipe gesture;
+- **start hidden. Shake the Simulator (Device › Shake, ⌃⌘Z) to show them,** and again to hide them. The choice is remembered across launches, so screenshots, UI tests and demos on a fresh Simulator never show them. Baymax handles shakes on the Simulator, so an app that uses shake for its own feature will also switch the controls;
 - **are hidden while Baymax isn't attached**, so they also disappear in builds that never call `attach(to:)`;
 - **run the authentication handler** given to `attach(to:)`, if any, before showing Baymax.
 

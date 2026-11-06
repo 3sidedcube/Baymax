@@ -9,7 +9,7 @@
 import SwiftUI
 
 /// A "Diagnostics" row for a `List` or `Form` that opens Baymax.
-/// Takes up no row while Baymax isn't attached (e.g. in production builds).
+/// Takes up no row while Baymax isn't attached (e.g. in production builds), or until the Simulator is shaken.
 ///
 /// - Important: Only shown on the Simulator (e.g. DeviceHub, which can't perform the multi-finger swipe).
 ///   Always hidden on real devices, so it never appears in release builds; there, Baymax is opened with the multi-finger swipe gesture.

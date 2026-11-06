@@ -75,9 +75,18 @@ public class DiagnosticsManager {
         return hostWindow != nil
     }
 
-    /// Internal so tests can use a fresh instance; apps use `shared`.
-    init() {
+    /// Whether the entry controls are switched on (Simulator only; see `handleShake()`)
+    let entryVisibility: EntryVisibility
 
+    /// Internal so tests can use a fresh instance; apps use `shared`.
+    init(entryVisibility: EntryVisibility = EntryVisibility()) {
+        self.entryVisibility = entryVisibility
+    }
+
+    /// Switches the entry controls on or off. Called on a shake on the Simulator; ignored while Baymax isn't attached.
+    func handleShake() {
+        guard isAttached else { return }
+        entryVisibility.toggle()
     }
     
     /// Diagnostic providers filtered to remove any hidden providers

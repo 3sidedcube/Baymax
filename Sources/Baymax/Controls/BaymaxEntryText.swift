@@ -17,4 +17,8 @@ enum BaymaxEntryText {
 
     /// VoiceOver label for every control
     static let accessibilityLabel = "Open diagnostics"
+
+    /// VoiceOver announcements after a shake switches the controls on or off
+    static let shownAnnouncement = "Diagnostics shown"
+    static let hiddenAnnouncement = "Diagnostics hidden"
 }
