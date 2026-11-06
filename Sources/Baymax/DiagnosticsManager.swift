@@ -51,9 +51,42 @@ public class DiagnosticsManager {
     
     /// Handles the gesture recogniser delegate, we have to do this as it must be an obj-c object and this class is not
     private let gestureDelegateHandler = GestureDelegateHandler()
-    
-    private init() {
-        
+
+    /// The swipe gesture that opens Baymax. One instance, moved between windows, so attaching repeatedly never stacks gestures.
+    private lazy var swipeGesture: UISwipeGestureRecognizer = {
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
+
+        #if targetEnvironment(simulator)
+        gesture.numberOfTouchesRequired = 2
+        #else
+        gesture.numberOfTouchesRequired = UIDevice.current.userInterfaceIdiom == .pad ? 3 : 4
+        #endif
+
+        gesture.direction = .up
+        gesture.delegate = gestureDelegateHandler
+        return gesture
+    }()
+
+    /// Whether `BaymaxServices` has been registered by `attach(to:)`
+    private var hasRegisteredBaymaxServices = false
+
+    /// Whether Baymax has been attached to a window
+    public var isAttached: Bool {
+        return hostWindow != nil
+    }
+
+    /// Whether the entry controls are switched on (Simulator only; see `handleShake()`)
+    let entryVisibility: EntryVisibility
+
+    /// Internal so tests can use a fresh instance; apps use `shared`.
+    init(entryVisibility: EntryVisibility = EntryVisibility()) {
+        self.entryVisibility = entryVisibility
+    }
+
+    /// Switches the entry controls on or off. Called on a shake on the Simulator; ignored while Baymax isn't attached.
+    func handleShake() {
+        guard isAttached else { return }
+        entryVisibility.toggle()
     }
     
     /// Diagnostic providers filtered to remove any hidden providers
@@ -101,49 +134,60 @@ public class DiagnosticsManager {
     
     /// Attaches the diagnostics view to this window. The gesture recogniser will be attached and optionally hidden behind authentication
     ///
+    /// Safe to call more than once: `BaymaxServices` is registered once, and the gesture moves to `window`
+    /// rather than being added again. Each call replaces the authentication handler.
+    ///
     /// - Parameters:
     ///   - window: The window to attach the gesture recogniser to
     ///   - authenticationHandler: A closure that you should use to handle authentication, if desired
     public func attach(to window: UIWindow, authenticationHandler: AuthenticationRequestClosure? = nil) {
-        
-        DiagnosticsManager.shared.register(provider: BaymaxServices())
-        
-        hostWindow = window
+
+        if !hasRegisteredBaymaxServices {
+            register(provider: BaymaxServices())
+            hasRegisteredBaymaxServices = true
+        }
+
         authenticationRequestClosure = authenticationHandler
-        
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
-                
-        #if targetEnvironment(simulator)
-        let numberOfTouches = 2
-        #else
-        let numberOfTouches = UIDevice.current.userInterfaceIdiom == .pad ? 3 : 4
-        #endif
-        
-        swipeGesture.numberOfTouchesRequired = numberOfTouches
-        swipeGesture.direction = .up
-        swipeGesture.delegate = gestureDelegateHandler
-        
+
+        guard hostWindow !== window else { return }
+
+        let wasAttached = isAttached
+        hostWindow?.removeGestureRecognizer(swipeGesture)
+        hostWindow = window
         window.addGestureRecognizer(swipeGesture)
+
+        if !wasAttached {
+            NotificationCenter.default.post(name: Self.attachmentDidChangeNotification, object: self)
+        }
     }
-    
-    /// Handles the swipe gesture recogniser on the window, if assigned
-    @objc private func handleSwipeGesture() {
-        
+
+    /// Posted (with the manager as `object`) when `isAttached` changes, so entry controls can show themselves.
+    static let attachmentDidChangeNotification = Notification.Name("BaymaxAttachmentDidChange")
+
+    /// Opens Baymax, running the authentication handler first if one was given to `attach(to:)`.
+    /// Shared by the swipe gesture and the entry controls. Does nothing if Baymax isn't attached.
+    func requestPresentation() {
+
+        guard isAttached else { return }
+
         guard let authenticationHandler = authenticationRequestClosure else {
-            
             presentDiagnosticsView()
             return
         }
-        
+
         authenticationHandler({ [weak self] authenticated in
-            
             if authenticated {
                 self?.presentDiagnosticsView()
             }
         })
     }
-    
-    /// Presents the diagnostics view
+
+    /// Handles the swipe gesture recogniser on the window, if assigned
+    @objc private func handleSwipeGesture() {
+        requestPresentation()
+    }
+
+    /// Presents the diagnostics view. Skips the authentication handler; the swipe gesture and entry controls go through it.
     public func presentDiagnosticsView() {
         
         guard let viewController = hostWindow?.visibleViewController else {
