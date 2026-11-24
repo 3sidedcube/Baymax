@@ -168,7 +168,7 @@ struct SupportProvider: DiagnosticsServiceProvider {
 }
 ```
 
-Only open a provider whose tools are read-only and safe for anyone holding the phone to see. Never open tokens, keys, logs, personal data, or anything that edits state. Hide a provider you don't want at all with `hide(provider:)`, which wins over `.open`.
+Only open a provider that passes the checks in [Security](#security). Hide a provider you don't want at all with `hide(provider:)`, which wins over `.open`.
 
 Baymax's built-in providers:
 
@@ -176,6 +176,25 @@ Baymax's built-in providers:
 |---|---|---|
 | App & device (`AppInfoServices`) | `.open` | App & device info. In a Live build on a device, only its App and Device sections; values from the app aren't shown, and `provide` closures aren't run |
 | General (`BaymaxServices`) | `.locked` | UserDefaults, GA DebugView, Property List Viewer, Logs |
+
+## Security
+
+Baymax is in Live builds, and the swipe that opens it isn't a secret. Treat everything a Live build lists as visible to a stranger holding the user's phone.
+
+**Before marking a provider `.open`, check every tool in it:**
+
+- **Read-only.** Nothing that edits, deletes or toggles state: UserDefaults, feature flags, environments, debug switches.
+- **No secrets.** No tokens, keys or credentials, including push tokens and App Check tokens. Expiry dates count too: they're app-supplied, so they stay in the locked "From the app" section.
+- **No personal data.** Nothing about the user beyond an opaque identifier support needs, such as a user ID, and only with the product owner's agreement.
+- **No logs or files.** Logs and plists can hold any of the above.
+
+**Rules that keep it safe by default:**
+
+- Providers are `.locked` unless they declare `.open`, so a new provider never reaches Live by accident.
+- `isLive` is `true` until the app sets it, so forgetting to set it locks a build rather than opening it.
+- An `.open` provider is a security decision: say so in the PR, with what it shows and why Live users need it.
+
+If a tool mixes safe and unsafe information, split it into two providers rather than opening both.
 
 ## Default Tools
 
