@@ -63,13 +63,13 @@ struct FirebaseDebugViewToolTests {
     func listedWhenFirebasePresent() {
         let tools = BaymaxServices.tools(includingFirebase: true)
 
-        #expect(tools.map(\.displayName) == ["App & device info", "UserDefaults", "GA DebugView", "Property List Viewer", "Logs"])
+        #expect(tools.map(\.displayName) == ["UserDefaults", "GA DebugView", "Property List Viewer", "Logs"])
     }
 
     @Test("Not listed when Firebase is absent")
     func notListedWhenFirebaseAbsent() {
         let tools = BaymaxServices.tools(includingFirebase: false)
 
-        #expect(tools.map(\.displayName) == ["App & device info", "UserDefaults", "Property List Viewer", "Logs"])
+        #expect(tools.map(\.displayName) == ["UserDefaults", "Property List Viewer", "Logs"])
     }
 }

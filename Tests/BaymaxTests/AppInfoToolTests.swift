@@ -181,8 +181,39 @@ struct AppInfoToolTests {
         #expect(AppInfoTool.copyAllText(of: sections) == "App\nVersion: 1.0\nBuild: 7\n\nDevice\niOS: 26.0")
     }
 
-    @Test("Listed first in the General section")
-    func registeredFirst() {
-        #expect(BaymaxServices().diagnosticTools.first is AppInfoTool)
+    @Test("The only tool in the App & device section")
+    func registeredInAppAndDevice() {
+        let tools = AppInfoServices().diagnosticTools
+
+        #expect(tools.count == 1)
+        #expect(tools.first is AppInfoTool)
+        #expect(!BaymaxServices().diagnosticTools.contains { $0 is AppInfoTool })
+    }
+
+    // MARK: - Live builds on a device
+
+    @Test("Without From the app, only App and Device are shown and copied")
+    func fromAppLeftOut() {
+        let recorded: [AppInfo] = [.apnsToken("ff"), .custom(title: "Environment", value: "live")]
+
+        let sections = AppInfoTool.sections(infoDictionary: [:], fromApp: recorded, showsFromApp: false)
+
+        #expect(sections.map(\.title) == ["App", "Device"])
+        #expect(!AppInfoTool.copyAllText(of: sections).contains("APNs token"))
+        #expect(!AppInfoTool.copyAllText(of: sections).contains("Environment"))
+    }
+
+    @Test("Without From the app, providers aren't run")
+    func providersNotRun() async {
+        var didRun = false
+        AppInfoTool.provide {
+            didRun = true
+            return [.apnsToken("ff")]
+        }
+
+        let provided = await AppInfoTool.provided(showsFromApp: false)
+
+        #expect(provided.isEmpty)
+        #expect(!didRun)
     }
 }

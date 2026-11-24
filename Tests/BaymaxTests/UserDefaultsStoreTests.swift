@@ -188,10 +188,8 @@ struct UserDefaultsStoreTests {
 
     // MARK: - Built-in registration
 
-    @Test("Listed after App & device info in the General section")
+    @Test("Listed first in the General section")
     func registeredInGeneral() {
-        let tools = BaymaxServices().diagnosticTools
-        #expect(tools.count > 1)
-        #expect(tools[1] is UserDefaultsTool)
+        #expect(BaymaxServices().diagnosticTools.first is UserDefaultsTool)
     }
 }

@@ -22,6 +22,10 @@ struct DiagnosticsManagerAttachTests {
         manager.diagnosticProviders.filter { $0 is BaymaxServices }.count
     }
 
+    private func appInfoServicesCount(in manager: DiagnosticsManager) -> Int {
+        manager.diagnosticProviders.filter { $0 is AppInfoServices }.count
+    }
+
     @Test("Not attached until attach(to:) is called")
     func notAttachedInitially() {
         #expect(!DiagnosticsManager().isAttached)
@@ -36,6 +40,7 @@ struct DiagnosticsManagerAttachTests {
         manager.attach(to: window)
 
         #expect(manager.isAttached)
+        #expect(appInfoServicesCount(in: manager) == 1)
         #expect(baymaxServicesCount(in: manager) == 1)
         #expect(swipeGestureCount(on: window) == 1)
     }
