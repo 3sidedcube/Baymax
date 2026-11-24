@@ -19,9 +19,14 @@ public class BaymaxServices: DiagnosticsServiceProvider {
         return Self.tools(includingFirebase: FirebaseDebugViewTool.isFirebasePresent)
     }
 
+    /// Locked: these tools edit state or show files and logs, so Live builds on a device never list them.
+    public var access: DiagnosticAccess {
+        return .locked
+    }
+
     /// The built-in tools, in order. The GA DebugView tool only appears when Firebase is in the app.
     static func tools(includingFirebase: Bool) -> [DiagnosticTool] {
         let firebaseTools: [DiagnosticTool] = includingFirebase ? [FirebaseDebugViewTool()] : []
-        return [AppInfoTool(), UserDefaultsTool()] + firebaseTools + [PropertyListTool(), LogsTool()]
+        return [UserDefaultsTool()] + firebaseTools + [PropertyListTool(), LogsTool()]
     }
 }

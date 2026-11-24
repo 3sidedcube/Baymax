@@ -67,7 +67,7 @@ public class DiagnosticsManager {
         return gesture
     }()
 
-    /// Whether `BaymaxServices` has been registered by `attach(to:)`
+    /// Whether `AppInfoServices` and `BaymaxServices` have been registered by `attach(to:)`
     private var hasRegisteredBaymaxServices = false
 
     /// Whether Baymax has been attached to a window
@@ -75,13 +75,37 @@ public class DiagnosticsManager {
         return hostWindow != nil
     }
 
+    /// Whether this is a Live build. On a real device, a Live build lists only `.open` providers.
+    ///
+    /// `true` unless the app says otherwise, so an app that never sets it is treated as Live. Set it from the app's
+    /// own environment, e.g. `DiagnosticsManager.shared.isLive = Environment.current == .live`.
+    public var isLive = true
+
+    /// Whether the app is running on the Simulator, where every provider is listed even in a Live build
+    let isSimulator: Bool
+
+    /// Whether `.locked` providers, and the app-supplied values in App & device info, are shown
+    var showsLockedProviders: Bool {
+        return !isLive || isSimulator
+    }
+
     /// Whether the entry controls are switched on (Simulator only; see `handleShake()`)
     let entryVisibility: EntryVisibility
 
     /// Internal so tests can use a fresh instance; apps use `shared`.
-    init(entryVisibility: EntryVisibility = EntryVisibility()) {
+    init(entryVisibility: EntryVisibility = EntryVisibility(), isSimulator: Bool = DiagnosticsManager.runsOnSimulator) {
         self.entryVisibility = entryVisibility
+        self.isSimulator = isSimulator
     }
+
+    /// Whether this build runs on the Simulator
+    static let runsOnSimulator: Bool = {
+        #if targetEnvironment(simulator)
+        return true
+        #else
+        return false
+        #endif
+    }()
 
     /// Switches the entry controls on or off. Called on a shake on the Simulator; ignored while Baymax isn't attached.
     func handleShake() {
@@ -89,13 +113,15 @@ public class DiagnosticsManager {
         entryVisibility.toggle()
     }
     
-    /// Diagnostic providers filtered to remove any hidden providers
+    /// Diagnostic providers filtered to remove any hidden providers, and locked ones in a Live build on a device
     var diagnosticProviders: [DiagnosticsServiceProvider] {
         return _diagnosticProviders.filter { (provider) -> Bool in
             // Remove any tools from the service that are hidden, this also needs to be filtered out on display!
             let tools = availableTools(for: provider)
             // Only show the service if it's tools aren't all hidden!
-            return !tools.isEmpty && !hiddenServices.contains(where: { $0 == type(of: provider) })
+            return !tools.isEmpty
+                && !hiddenServices.contains(where: { $0 == type(of: provider) })
+                && (showsLockedProviders || provider.access == .open)
         }
     }
     
@@ -134,7 +160,7 @@ public class DiagnosticsManager {
     
     /// Attaches the diagnostics view to this window. The gesture recogniser will be attached and optionally hidden behind authentication
     ///
-    /// Safe to call more than once: `BaymaxServices` is registered once, and the gesture moves to `window`
+    /// Safe to call more than once: the built-in providers are registered once, and the gesture moves to `window`
     /// rather than being added again. Each call replaces the authentication handler.
     ///
     /// - Parameters:
@@ -143,6 +169,7 @@ public class DiagnosticsManager {
     public func attach(to window: UIWindow, authenticationHandler: AuthenticationRequestClosure? = nil) {
 
         if !hasRegisteredBaymaxServices {
+            register(provider: AppInfoServices())
             register(provider: BaymaxServices())
             hasRegisteredBaymaxServices = true
         }
@@ -194,7 +221,7 @@ public class DiagnosticsManager {
             return
         }
         
-        let diagnosticsView = DiagnosticsMenuTableViewController()
+        let diagnosticsView = DiagnosticsMenuTableViewController(manager: self)
         
         let navigationWrappedDiagnosticsView = UINavigationController(rootViewController: diagnosticsView)
         

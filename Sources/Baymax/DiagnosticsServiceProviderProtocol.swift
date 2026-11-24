@@ -16,4 +16,14 @@ public protocol DiagnosticsServiceProvider {
     
     /// An array of services (or tools)
     var diagnosticTools: [DiagnosticTool] { get }
+
+    /// Whether the provider is shown in a Live build on a real device. `.locked` unless the provider says otherwise.
+    var access: DiagnosticAccess { get }
+}
+
+extension DiagnosticsServiceProvider {
+
+    public var access: DiagnosticAccess {
+        return .locked
+    }
 }

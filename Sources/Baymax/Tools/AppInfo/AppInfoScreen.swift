@@ -79,7 +79,7 @@ struct AppInfoScreen: View {
 
     private func refresh() async {
         sections = AppInfoTool.sections()
-        guard !AppInfoTool.providers.isEmpty else { return }
+        guard AppInfoTool.showsFromApp, !AppInfoTool.providers.isEmpty else { return }
 
         isLoadingProvided = true
         let provided = await AppInfoTool.provided()

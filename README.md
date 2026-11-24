@@ -61,6 +61,10 @@ This provides the readable name that will be displayed in Baymax's UI once the u
 
 `launchUI` function gets passed the current navigation controller that Baymax is using for it's UI, allowing you to push/present whatever UI you would like for your tool. This is called when the user clicks the table cell for an individual tool. 
 
+#### `access` (DiagnosticAccess, optional)
+
+Whether the provider is listed in a Live build on a real device. Leave it out and the provider is `.locked`. See [Live builds](#live-builds).
+
 ### SwiftUI tools
 
 Conform to `SwiftUIDiagnosticTool` instead and return your view from `makeView()`. Baymax hosts it and pushes it for you, titled with `displayName`, so there's no need to implement `launchUI`:
@@ -136,13 +140,50 @@ baymax_log("App Launch", category: "App Lifecycle", type: .debug)
 ```
 the function also supports providing a `subsystem` like the `os_log` function. This function will NOT also write to `os_log` so you should make sure you are still logging there if you want to utilise Apple's logging tools.
 
+## Live builds
+
+Baymax can be opened by anyone holding the phone, so a Live build on a real device only lists providers that are `.open`. Everything else, Baymax's own "General" tools included, is `.locked` and hidden there.
+
+| Build | Listed |
+|---|---|
+| Live, on a real device | `.open` providers only. With none, the menu shows an empty state |
+| Live, on the Simulator | Everything |
+| Not Live | Everything |
+
+Tell Baymax whether the build is Live, from your app's own environment:
+
+```swift
+DiagnosticsManager.shared.isLive = Environment.current == .live
+```
+
+`isLive` is `true` until you set it, so an app that never sets it is treated as Live. Set it to `false` in your Dev and Staging builds, or they'll list only `.open` providers on a device.
+
+A provider opens itself by declaring its access:
+
+```swift
+struct SupportProvider: DiagnosticsServiceProvider {
+    var serviceName: String { "Support" }
+    var diagnosticTools: [DiagnosticTool] { [UserIDTool()] }
+    var access: DiagnosticAccess { .open }
+}
+```
+
+Only open a provider whose tools are read-only and safe for anyone holding the phone to see. Never open tokens, keys, logs, personal data, or anything that edits state. Hide a provider you don't want at all with `hide(provider:)`, which wins over `.open`.
+
+Baymax's built-in providers:
+
+| Provider | Access | Tools |
+|---|---|---|
+| App & device (`AppInfoServices`) | `.open` | App & device info. In a Live build on a device, only its App and Device sections; values from the app aren't shown, and `provide` closures aren't run |
+| General (`BaymaxServices`) | `.locked` | UserDefaults, GA DebugView, Property List Viewer, Logs |
+
 ## Default Tools
 
 ### App & device info
 
-Shows the app's name, version, build and bundle ID, and the device's model, iOS version, locale and time zone. Tap a row to copy its value, or use the share button to share everything as text, e.g. into a ticket or Slack.
+In its own "App & device" section. Shows the app's name, version, build and bundle ID, and the device's model, iOS version, locale and time zone. Tap a row to copy its value, or use the share button to share everything as text, e.g. into a ticket or Slack.
 
-Values only the app knows are recorded with `AppInfoTool.record(_:)`, whenever they change. Recording again replaces the earlier value (same token type, or same `custom` title):
+Values only the app knows go in a "From the app" section, which is hidden in Live builds on a device. They're recorded with `AppInfoTool.record(_:)`, whenever they change. Recording again replaces the earlier value (same token type, or same `custom` title):
 
 ```swift
 // didRegisterForRemoteNotificationsWithDeviceToken

@@ -8,7 +8,8 @@
 
 import SwiftUI
 
-/// Shows app and device details, plus values the app records, all copyable. Built in, in the "General" section.
+/// Shows app and device details, plus values the app records, all copyable. Built in, in the "App & device" section.
+/// In a Live build on a real device, the values from the app are left out and their providers aren't run.
 public struct AppInfoTool: SwiftUIDiagnosticTool {
 
     /// Values recorded by the app, in the order first recorded.
@@ -40,8 +41,14 @@ public struct AppInfoTool: SwiftUIDiagnosticTool {
         providers.append(provider)
     }
 
-    /// Runs every provider, in the order given.
-    static func provided() async -> [AppInfo] {
+    /// Whether the "From the app" section is shown. Its values are app-supplied, so they're locked like a `.locked` provider.
+    static var showsFromApp: Bool {
+        DiagnosticsManager.shared.showsLockedProviders
+    }
+
+    /// Runs every provider, in the order given. Runs none when "From the app" isn't shown.
+    static func provided(showsFromApp: Bool = AppInfoTool.showsFromApp) async -> [AppInfo] {
+        guard showsFromApp else { return [] }
         var values: [AppInfo] = []
         for provider in providers {
             values = merging(values, with: await provider())
@@ -76,10 +83,13 @@ public struct AppInfoTool: SwiftUIDiagnosticTool {
     static let fromAppTitle = "From the app"
 
     /// All sections shown on screen, built fresh so expiry times are relative to `now`.
-    /// - Parameter fromApp: Recorded values merged with provided ones.
+    /// - Parameters:
+    ///   - fromApp: Recorded values merged with provided ones.
+    ///   - showsFromApp: Whether to include the "From the app" section.
     static func sections(
         infoDictionary: [String: Any] = Bundle.main.infoDictionary ?? [:],
         fromApp: [AppInfo] = recorded,
+        showsFromApp: Bool = AppInfoTool.showsFromApp,
         now: Date = Date()
     ) -> [AppInfoSection] {
         let string = { (key: String) in infoDictionary[key] as? String ?? "Unknown" }
@@ -97,6 +107,8 @@ public struct AppInfoTool: SwiftUIDiagnosticTool {
             AppInfoRow(title: "Locale", value: Locale.current.identifier),
             AppInfoRow(title: "Time zone", value: TimeZone.current.identifier)
         ])
+
+        guard showsFromApp else { return [app, device] }
 
         let fromAppSection = AppInfoSection(title: fromAppTitle, rows: fromApp.map { $0.row(now: now) })
 
