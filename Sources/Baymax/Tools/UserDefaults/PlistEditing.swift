@@ -32,7 +32,7 @@ enum PlistEditing {
             return array.enumerated().map { (.index($0.offset), $0.element) }
         }
         if let dictionary = container as? [String: Any] {
-            return dictionary.keys.sorted().map { (.key($0), dictionary[$0] as Any) }
+            return dictionary.sorted { $0.key < $1.key }.map { (.key($0.key), $0.value) }
         }
         return []
     }

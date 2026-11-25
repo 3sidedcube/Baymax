@@ -55,6 +55,21 @@ struct UserDefaultsStoreTests {
         #expect(defaults.persistentDomain(forName: suiteName)?[systemEntry.key] == nil)
     }
 
+    @Test("Values are listed unwrapped, never as Optional(…)")
+    func valuesNotWrappedInOptional() throws {
+        defaults.set("abc", forKey: "name")
+        defaults.set(["inner": "xyz"], forKey: "nested")
+        let store = makeStore()
+
+        let name = try entry("name", in: store)
+        #expect(name.preview == "abc")
+        #expect(String(describing: name.value) == "abc")
+
+        let nested = try entry("nested", in: store)
+        let child = try #require(PlistEditing.children(of: nested.value).first)
+        #expect(String(describing: child.value) == "xyz")
+    }
+
     @Test("Entries are sorted by key")
     func sorted() {
         defaults.set(1, forKey: "b")

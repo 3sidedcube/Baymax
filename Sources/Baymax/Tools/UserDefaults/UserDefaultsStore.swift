@@ -133,11 +133,11 @@ final class UserDefaultsStore: ObservableObject {
     }
 
     private func makeEntries(_ values: [String: Any], isSystem: Bool) -> [UserDefaultsEntry] {
-        values.keys.sorted().map { key in
+        values.sorted { $0.key < $1.key }.map { key, value in
             UserDefaultsEntry(
                 key: key,
-                value: values[key] as Any,
-                type: UserDefaultsValueType(of: values[key] as Any),
+                value: value,
+                type: UserDefaultsValueType(of: value),
                 isProtected: protectedKeys.contains(key),
                 isSystem: isSystem
             )
