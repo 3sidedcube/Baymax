@@ -85,10 +85,10 @@ public class DiagnosticsManager {
     let isSimulator: Bool
 
     /// Whether passing the authentication handler given to `attach(to:)` also lists `.locked` providers in a Live build,
-    /// as a non-Live build would. `false` unless the app opts in, e.g. an app gated by a staff-only Storm login:
+    /// as a non-Live build would. `false` unless the app opts in, e.g. an app gated by a Storm login:
     /// `DiagnosticsManager.shared.authenticationUnlocksLockedProviders = true`.
     ///
-    /// - Important: Only opt in when the handler is a real staff login. Anyone who passes it sees every tool,
+    /// - Important: Only opt in when the handler is a real login, such as Storm. Anyone who passes it sees every tool,
     ///   UserDefaults editing included, on the phone they're holding.
     public var authenticationUnlocksLockedProviders = false
 

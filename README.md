@@ -170,9 +170,9 @@ struct SupportProvider: DiagnosticsServiceProvider {
 
 Only open a provider that passes the checks in [Security](#security). Hide a provider you don't want at all with `hide(provider:)`, which wins over `.open`.
 
-### Unlocking with a staff login
+### Unlocking with a Storm login
 
-If the authentication handler given to `attach(to:)` is a real staff login (e.g. ThunderCloud's Storm login, `enableBaymax(requireStormAuth: true)`), passing it can unlock `.locked` providers in a Live build:
+If the authentication handler given to `attach(to:)` is ThunderCloud's Storm login (`enableBaymax(requireStormAuth: true)`), or another real login, passing it can unlock `.locked` providers in a Live build:
 
 ```swift
 DiagnosticsManager.shared.authenticationUnlocksLockedProviders = true
