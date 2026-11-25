@@ -98,6 +98,59 @@ struct AccessLevelTests {
         #expect(names(in: manager) == ["App & device"])
     }
 
+    // MARK: - Unlocking with authentication
+
+    private func makeWindow() -> UIWindow {
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 320, height: 640))
+        window.rootViewController = UIViewController()
+        window.makeKeyAndVisible()
+        return window
+    }
+
+    /// A Live device build attached with an auth handler that answers `approved`.
+    /// Attaching also registers Baymax's built-ins, so tests look for the locked "Undeclared" provider.
+    private func liveManager(approved: Bool, unlocks: Bool) -> DiagnosticsManager {
+        let manager = manager(isLive: true, isSimulator: false)
+        manager.authenticationUnlocksLockedProviders = unlocks
+        manager.attach(to: makeWindow()) { completion in completion(approved) }
+        return manager
+    }
+
+    @Test("Authentication doesn't unlock locked providers unless the app opts in")
+    func authenticationLocksByDefault() {
+        #expect(!DiagnosticsManager().authenticationUnlocksLockedProviders)
+    }
+
+    @Test("Passing authentication lists locked providers only when the app opts in", arguments: [true, false])
+    func passingAuthenticationUnlocks(unlocks: Bool) {
+        let manager = liveManager(approved: true, unlocks: unlocks)
+
+        manager.requestPresentation()
+
+        #expect(names(in: manager).contains("Undeclared") == unlocks)
+    }
+
+    @Test("Failing authentication leaves locked providers hidden")
+    func failingAuthenticationStaysLocked() {
+        let manager = liveManager(approved: false, unlocks: true)
+
+        manager.requestPresentation()
+
+        #expect(!manager.isUnlocked)
+        #expect(!names(in: manager).contains("Undeclared"))
+    }
+
+    @Test("Presenting directly, without authentication, locks again")
+    func directPresentationRelocks() {
+        let manager = liveManager(approved: true, unlocks: true)
+        manager.requestPresentation()
+        #expect(manager.isUnlocked)
+
+        manager.presentDiagnosticsView()
+
+        #expect(!names(in: manager).contains("Undeclared"))
+    }
+
     // MARK: - Empty state
 
     private func menuShowsEmptyState(for manager: DiagnosticsManager) -> Bool {

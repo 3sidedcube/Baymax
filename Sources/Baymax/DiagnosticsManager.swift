@@ -84,9 +84,22 @@ public class DiagnosticsManager {
     /// Whether the app is running on the Simulator, where every provider is listed even in a Live build
     let isSimulator: Bool
 
+    /// Whether passing the authentication handler given to `attach(to:)` also lists `.locked` providers in a Live build,
+    /// as a non-Live build would. `false` unless the app opts in, e.g. an app gated by a staff-only Storm login:
+    /// `DiagnosticsManager.shared.authenticationUnlocksLockedProviders = true`.
+    ///
+    /// - Important: Only opt in when the handler is a real staff login. Anyone who passes it sees every tool,
+    ///   UserDefaults editing included, on the phone they're holding.
+    public var authenticationUnlocksLockedProviders = false
+
+    /// Whether the menu now open was reached by passing the authentication handler, with
+    /// `authenticationUnlocksLockedProviders` on. Set on every presentation, so it never carries over to one that
+    /// skipped authentication.
+    private(set) var isUnlocked = false
+
     /// Whether `.locked` providers, and the app-supplied values in App & device info, are shown
     var showsLockedProviders: Bool {
-        return !isLive || isSimulator
+        return !isLive || isSimulator || isUnlocked
     }
 
     /// Whether the entry controls are switched on (Simulator only; see `handleShake()`)
@@ -203,9 +216,8 @@ public class DiagnosticsManager {
         }
 
         authenticationHandler({ [weak self] authenticated in
-            if authenticated {
-                self?.presentDiagnosticsView()
-            }
+            guard authenticated, let self else { return }
+            self.present(unlocked: self.authenticationUnlocksLockedProviders)
         })
     }
 
@@ -214,13 +226,21 @@ public class DiagnosticsManager {
         requestPresentation()
     }
 
-    /// Presents the diagnostics view. Skips the authentication handler; the swipe gesture and entry controls go through it.
+    /// Presents the diagnostics view. Skips the authentication handler, so it never unlocks `.locked` providers;
+    /// the swipe gesture and entry controls go through the handler.
     public func presentDiagnosticsView() {
-        
+        present(unlocked: false)
+    }
+
+    /// Presents the diagnostics view, listing `.locked` providers in a Live build only if `unlocked`.
+    private func present(unlocked: Bool) {
+
         guard let viewController = hostWindow?.visibleViewController else {
             return
         }
-        
+
+        isUnlocked = unlocked
+
         let diagnosticsView = DiagnosticsMenuTableViewController(manager: self)
         
         let navigationWrappedDiagnosticsView = UINavigationController(rootViewController: diagnosticsView)
