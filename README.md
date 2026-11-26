@@ -170,6 +170,16 @@ struct SupportProvider: DiagnosticsServiceProvider {
 
 Only open a provider that passes the checks in [Security](#security). Hide a provider you don't want at all with `hide(provider:)`, which wins over `.open`.
 
+### Unlocking with a Storm login
+
+If the authentication handler given to `attach(to:)` is ThunderCloud's Storm login (`enableBaymax(requireStormAuth: true)`), or another real login, passing it can unlock `.locked` providers in a Live build:
+
+```swift
+DiagnosticsManager.shared.authenticationUnlocksLockedProviders = true
+```
+
+It's off unless you set it. When on, each time someone opens Baymax through the handler and passes, every provider is listed, as in a non-Live build. It applies only to that opening: `presentDiagnosticsView()`, which skips the handler, never unlocks. Anyone who passes the login can edit UserDefaults and read tokens and logs on the phone they're holding, so say so in the PR that turns it on.
+
 Baymax's built-in providers:
 
 | Provider | Access | Tools |
