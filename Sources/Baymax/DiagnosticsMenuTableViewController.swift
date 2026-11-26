@@ -6,16 +6,24 @@
 //  Copyright © 2018 3 SIDED CUBE. All rights reserved.
 //
 
+import SwiftUI
 import UIKit
 
 /// The presentable view for the baymax framework. Diagnostics tools are accessed from here.
 public class DiagnosticsMenuTableViewController: UITableViewController {
         
+    private let manager: DiagnosticsManager
+
     var providers: [DiagnosticsServiceProvider] {
-        return DiagnosticsManager.shared.diagnosticProviders
+        return manager.diagnosticProviders
     }
     
-    public init() {
+    public convenience init() {
+        self.init(manager: .shared)
+    }
+
+    init(manager: DiagnosticsManager) {
+        self.manager = manager
         super.init(style: .grouped)
     }
     
@@ -42,6 +50,12 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: animated)
+        setNeedsUpdateContentUnavailableConfiguration()
+    }
+
+    /// Shows the empty state when no provider is visible, e.g. a Live build where nothing is open.
+    public override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+        contentUnavailableConfiguration = providers.isEmpty ? UIHostingConfiguration { BaymaxEmptyState() } : nil
     }
     
     // MARK: - Table view data source
@@ -56,7 +70,7 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
             return 0
         }
         
-        let tools = DiagnosticsManager.shared.availableTools(for: providers[section])
+        let tools = manager.availableTools(for: providers[section])
         return tools.count
     }
     
@@ -64,7 +78,7 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "serviceRow", for: indexPath)
         
-        let providerService = DiagnosticsManager.shared.availableTools(for: providers[indexPath.section])[indexPath.row]
+        let providerService = manager.availableTools(for: providers[indexPath.section])[indexPath.row]
         
         cell.textLabel?.text = providerService.displayName
         cell.accessoryType = .disclosureIndicator
@@ -81,7 +95,7 @@ public class DiagnosticsMenuTableViewController: UITableViewController {
         guard let navigationController = self.navigationController else {
             return
         }
-        DiagnosticsManager.shared.availableTools(for: providers[indexPath.section])[indexPath.row].launchUI(in: navigationController)
+        manager.availableTools(for: providers[indexPath.section])[indexPath.row].launchUI(in: navigationController)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

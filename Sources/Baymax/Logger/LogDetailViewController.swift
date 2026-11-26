@@ -54,7 +54,7 @@ class LogDetailViewController: UIViewController {
         super.viewDidLoad()
 
         textView.frame = view.bounds
-        if let text = try? String(contentsOf: file.url) {
+        if let text = try? String(contentsOf: file.url, encoding: .utf8) {
             textView.text = text
         } else {
             textView.text = "Failed to load file"
